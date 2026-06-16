@@ -1,0 +1,61 @@
+.screen {
+  padding: calc(var(--safe-top) + 20px) 16px 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.header h1 {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.insightCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cardIcon {
+  font-size: 20px;
+}
+
+.cardTitle {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.cardBody {
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--text);
+}
+
+.refreshButton {
+  min-height: 48px;
+  border-radius: var(--radius-lg);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-weight: 700;
+  font-size: 15px;
+}

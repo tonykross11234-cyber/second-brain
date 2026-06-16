@@ -1,0 +1,24 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.high {
+  color: var(--priority-high);
+  background: var(--priority-high-soft);
+}
+
+.medium {
+  color: var(--priority-medium);
+  background: var(--priority-medium-soft);
+}
+
+.low {
+  color: var(--priority-low);
+  background: var(--priority-low-soft);
+}
