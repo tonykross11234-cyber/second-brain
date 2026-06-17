@@ -1,16 +1,17 @@
 import { motion } from 'framer-motion'
 import { useFitnessStore } from '../store/useFitnessStore'
 import { useTranslation } from '../lib/useTranslation'
+import { todayKey } from '../lib/date-utils'
 import { Card } from '../components/Card'
 import styles from './FitnessScreen.module.css'
 
 export function FitnessScreen() {
   const { t } = useTranslation()
-  const getTodayData = useFitnessStore((s) => s.getTodayData)
+  const fitnessDays = useFitnessStore((s) => s.days)
   const goals = useFitnessStore((s) => s.goals)
   const addToday = useFitnessStore((s) => s.addToday)
 
-  const today = getTodayData()
+  const today = fitnessDays.find((d) => d.date === todayKey()) ?? { calories: 0, proteinG: 0, waterMl: 0 }
 
   function pct(val: number, goal: number) {
     return Math.min(100, goal > 0 ? Math.round((val / goal) * 100) : 0)
