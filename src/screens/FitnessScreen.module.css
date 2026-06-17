@@ -233,6 +233,38 @@
   flex-shrink: 0;
 }
 
+/* ── Light theme overrides ── */
+:root[data-theme='light'] .statCard {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+:root[data-theme='light'] .statVal {
+  color: #111827;
+}
+
+:root[data-theme='light'] .statGoal {
+  color: #9ca3af;
+}
+
+:root[data-theme='light'] .miniBar {
+  background: #e5e7eb;
+}
+
+:root[data-theme='light'] .pill {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+}
+
+:root[data-theme='light'] .goalInput {
+  color: #111827;
+}
+
+:root[data-theme='light'] .goalUnit {
+  color: #9ca3af;
+}
+
 .divider {
   height: 1px;
   background: rgba(255, 255, 255, 0.06);

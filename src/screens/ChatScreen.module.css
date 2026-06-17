@@ -261,3 +261,67 @@
 .sendButton:disabled {
   cursor: not-allowed;
 }
+
+/* ── Light theme overrides ── */
+:root[data-theme='light'] .screen {
+  background: #f8f7f5;
+}
+
+:root[data-theme='light'] .header {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+:root[data-theme='light'] .title {
+  color: #111827;
+}
+
+:root[data-theme='light'] .clearButton {
+  color: #9ca3af;
+}
+
+:root[data-theme='light'] .clearButton:hover {
+  color: #6b7280;
+}
+
+:root[data-theme='light'] .emptyTitle {
+  color: #111827;
+}
+
+:root[data-theme='light'] .emptyBody {
+  color: #6b7280;
+}
+
+:root[data-theme='light'] .assistantBubble {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  color: #111827;
+}
+
+:root[data-theme='light'] .actionBubble {
+  color: #9ca3af;
+}
+
+:root[data-theme='light'] .typingIndicator {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+}
+
+:root[data-theme='light'] .inputBar {
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+}
+
+:root[data-theme='light'] .input {
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  color: #111827;
+}
+
+:root[data-theme='light'] .input::placeholder {
+  color: #9ca3af;
+}
+
+:root[data-theme='light'] .sendDisabled {
+  background: #e5e7eb;
+}

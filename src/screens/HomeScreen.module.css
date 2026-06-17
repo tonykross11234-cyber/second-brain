@@ -208,6 +208,10 @@
   overflow: hidden;
 }
 
+:root[data-theme='light'] .progressBar {
+  background: #e5e7eb;
+}
+
 .progressFill {
   height: 100%;
   border-radius: 4px;
@@ -330,4 +334,17 @@
   color: var(--text-muted);
   text-align: center;
   padding: 8px 0;
+}
+
+/* ── Light theme overrides ── */
+:root[data-theme='light'] .heroCard {
+  background: linear-gradient(135deg, #ede9fe, #dbeafe);
+  border: 1px solid #c4b5fd;
+}
+
+:root[data-theme='light'] .streakNumber {
+  background: linear-gradient(135deg, #7c3aed, #0891b2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
