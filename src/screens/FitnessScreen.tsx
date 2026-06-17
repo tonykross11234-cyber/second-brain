@@ -246,7 +246,7 @@ export function FitnessScreen() {
         onClick={() => navigate('chat')}
       >
         <MessageCircle size={16} />
-        <span>Составить план с Phantom</span>
+        <span>{t.fitness.ctaLabel}</span>
       </motion.button>
     </div>
   )

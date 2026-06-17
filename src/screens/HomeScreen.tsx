@@ -115,28 +115,28 @@ export function HomeScreen() {
 
   const quickActions = [
     {
-      label: language === 'ru' ? 'Дневник' : 'Journal',
+      label: t.home.quickJournal,
       icon: <BookOpen size={22} color="#7c3aed" />,
       color: '#7c3aed',
       bg: 'rgba(124,58,237,0.10)',
       tab: 'journal' as const,
     },
     {
-      label: language === 'ru' ? 'Фитнес' : 'Fitness',
+      label: t.home.quickFitness,
       icon: <Dumbbell size={22} color="#06b6d4" />,
       color: '#06b6d4',
       bg: 'rgba(6,182,212,0.10)',
       tab: 'fitness' as const,
     },
     {
-      label: language === 'ru' ? 'Задачи' : 'Tasks',
+      label: t.home.quickTasks,
       icon: <CheckSquare size={22} color="#10b981" />,
       color: '#10b981',
       bg: 'rgba(16,185,129,0.10)',
       tab: 'journal' as const,
     },
     {
-      label: language === 'ru' ? 'История' : 'History',
+      label: t.home.quickHistory,
       icon: <Clock size={22} color="#f59e0b" />,
       color: '#f59e0b',
       bg: 'rgba(245,158,11,0.10)',
@@ -150,7 +150,7 @@ export function HomeScreen() {
       label: t.home.caloriesLabel,
       value: todayFitness.calories,
       goal: goals.calories,
-      unit: language === 'ru' ? 'ккал' : 'kcal',
+      unit: t.fitness.kcal,
       pct: calPct,
       gradient: 'linear-gradient(90deg, #f97316, #fbbf24)',
     },
@@ -159,7 +159,7 @@ export function HomeScreen() {
       label: t.home.proteinLabel,
       value: todayFitness.proteinG,
       goal: goals.proteinG,
-      unit: language === 'ru' ? 'г' : 'g',
+      unit: t.fitness.g,
       pct: protPct,
       gradient: 'linear-gradient(90deg, #7c3aed, #a78bfa)',
     },
@@ -168,7 +168,7 @@ export function HomeScreen() {
       label: t.home.waterLabel,
       value: todayFitness.waterMl,
       goal: goals.waterMl,
-      unit: language === 'ru' ? 'мл' : 'ml',
+      unit: t.fitness.ml,
       pct: waterPct,
       gradient: 'linear-gradient(90deg, #06b6d4, #38bdf8)',
     },
@@ -224,9 +224,7 @@ export function HomeScreen() {
 
       {/* 4. PROGRESS CARD */}
       <Card className={styles.progressCard} onClick={() => navigate('fitness')}>
-        <span className={styles.sectionLabel}>
-          {language === 'ru' ? 'ПРОГРЕСС ДНЯ' : 'TODAY'}
-        </span>
+        <span className={styles.sectionLabel}>{t.home.progressLabel}</span>
         <div className={styles.progressRows}>
           {progressRows.map((row) => (
             <div key={row.label} className={styles.progressItem}>
@@ -267,14 +265,12 @@ export function HomeScreen() {
         onClick={() => navigate('chat')}
       >
         <MessageCircle size={18} color="#fff" />
-        <span>{language === 'ru' ? 'Спросить Phantom' : 'Ask Phantom'}</span>
+        <span>{t.home.askPhantom}</span>
       </motion.button>
 
       {/* 7. LAST ENTRY CARD */}
       <Card className={styles.lastEntryCard} onClick={() => navigate('journal')}>
-        <span className={styles.sectionLabel}>
-          {language === 'ru' ? 'ПОСЛЕДНЯЯ ЗАПИСЬ' : 'LAST ENTRY'}
-        </span>
+        <span className={styles.sectionLabel}>{t.home.lastEntrySection}</span>
         {lastEntry ? (
           <div className={styles.lastEntryContent}>
             <div className={styles.lastEntryMeta}>
@@ -288,11 +284,7 @@ export function HomeScreen() {
             </div>
           </div>
         ) : (
-          <p className={styles.emptyEntry}>
-            {language === 'ru'
-              ? 'Начни записывать — это займёт 1 минуту'
-              : 'Start writing — it only takes 1 minute'}
-          </p>
+          <p className={styles.emptyEntry}>{t.home.emptyEntry}</p>
         )}
       </Card>
     </div>

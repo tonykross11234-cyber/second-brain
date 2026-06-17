@@ -73,14 +73,14 @@ export function ProfileScreen() {
         {name ? (
           <p className={styles.avatarName}>{name}</p>
         ) : (
-          <p className={styles.avatarNameEmpty}>Имя не указано</p>
+          <p className={styles.avatarNameEmpty}>{t.profile.nameEmpty}</p>
         )}
-        <p className={styles.avatarSub}>В приложении с сегодня</p>
+        <p className={styles.avatarSub}>{t.profile.memberSince}</p>
       </div>
 
       {/* 2. NAME CARD */}
       <Card className={styles.card}>
-        <span className={styles.sectionLabel}>ПРОФИЛЬ</span>
+        <span className={styles.sectionLabel}>{t.profile.sectionProfile}</span>
         <div className={styles.fieldRow}>
           <span className={styles.fieldLabel}>{t.profile.nameLabel}</span>
           <input
@@ -94,7 +94,7 @@ export function ProfileScreen() {
 
       {/* 3. BIOMETRICS CARD */}
       <Card className={styles.card}>
-        <span className={styles.sectionLabel}>ФИЗИЧЕСКИЕ ДАННЫЕ</span>
+        <span className={styles.sectionLabel}>{t.profile.sectionBiometrics}</span>
 
         <div className={styles.fieldRow}>
           <span className={styles.fieldLabel}>{t.profile.weight}</span>
@@ -151,7 +151,7 @@ export function ProfileScreen() {
 
       {/* 4. GOALS CARD */}
       <Card className={styles.card}>
-        <span className={styles.sectionLabel}>ЦЕЛИ НА ДЕНЬ</span>
+        <span className={styles.sectionLabel}>{t.profile.sectionGoals}</span>
 
         <div className={styles.fieldRow}>
           <span className={styles.fieldLabel}>{t.fitness.goalCalories}</span>
