@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useProfileStore } from '../store/useProfileStore'
+import { useSettingsStore } from '../store/useSettingsStore'
 import { useTranslation } from '../lib/useTranslation'
+import type { Theme, Language } from '../lib/types'
 import { Card } from '../components/Card'
 import { PinSetupFlow } from '../components/PinSetupFlow'
 import styles from './ProfileScreen.module.css'
@@ -13,6 +15,11 @@ export function ProfileScreen() {
     pinEnabled,
     setName, setBiometrics, enablePin, disablePin,
   } = useProfileStore()
+
+  const theme = useSettingsStore((s) => s.theme)
+  const language = useSettingsStore((s) => s.language)
+  const setTheme = useSettingsStore((s) => s.setTheme)
+  const setLanguage = useSettingsStore((s) => s.setLanguage)
 
   const [showPinSetup, setShowPinSetup] = useState(false)
 
@@ -123,6 +130,44 @@ export function ProfileScreen() {
           </motion.button>
         </div>
         <p className={styles.disclaimer}>{t.pin.disclaimer}</p>
+      </Card>
+
+      <Card className={styles.section}>
+        <span className={styles.sectionTitle}>{t.settings.appearance}</span>
+
+        <div className={styles.settingsRow}>
+          <span className={styles.fieldLabel}>{t.settings.theme}</span>
+          <div className={styles.toggle}>
+            {([['dark', t.settings.themeDark], ['light', t.settings.themeLight]] as [Theme, string][]).map(([val, label]) => (
+              <button
+                key={val}
+                type="button"
+                className={`${styles.toggleOption} ${theme === val ? styles.toggleActive : ''}`}
+                onClick={() => setTheme(val)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className={styles.divider} />
+
+        <div className={styles.settingsRow}>
+          <span className={styles.fieldLabel}>{t.settings.language}</span>
+          <div className={styles.toggle}>
+            {([['ru', 'RU'], ['en', 'EN']] as [Language, string][]).map(([val, label]) => (
+              <button
+                key={val}
+                type="button"
+                className={`${styles.toggleOption} ${language === val ? styles.toggleActive : ''}`}
+                onClick={() => setLanguage(val)}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
       </Card>
 
       {showPinSetup && (

@@ -20,13 +20,13 @@ export function HomeScreen() {
   const motivation = useChatStore((s) => s.motivation)
   const setMotivation = useChatStore((s) => s.setMotivation)
 
-  const getTodayData = useFitnessStore((s) => s.getTodayData)
+  const fitnessDays = useFitnessStore((s) => s.days)
   const goals = useFitnessStore((s) => s.goals)
-  const todayFitness = getTodayData()
 
   const [motivationLoading, setMotivationLoading] = useState(false)
 
   const today = todayKey()
+  const todayFitness = fitnessDays.find((d) => d.date === today) ?? { calories: 0, proteinG: 0, waterMl: 0 }
   const streak = calculateStreak(entries)
   const lastEntry = [...entries].sort((a, b) => (a.date < b.date ? 1 : -1))[0]
 
