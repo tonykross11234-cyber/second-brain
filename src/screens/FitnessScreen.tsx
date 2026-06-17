@@ -39,14 +39,13 @@ export function FitnessScreen() {
           <span className={`${styles.statVal} ${styles.statValCal}`}>
             {today.calories}
           </span>
-          <span className={styles.statUnit}>{t.fitness.kcal}</span>
-          <span className={styles.statLabel}>{t.fitness.caloriesLabel}</span>
+          <span className={styles.statGoal}>из {goals.calories} {t.fitness.kcal}</span>
           <div className={styles.miniBar}>
             <div
               className={styles.miniFill}
               style={{
                 width: `${pct(today.calories, goals.calories)}%`,
-                background: 'linear-gradient(135deg, #f97316, #fbbf24)',
+                background: 'linear-gradient(90deg, #f97316, #fbbf24)',
               }}
             />
           </div>
@@ -58,14 +57,13 @@ export function FitnessScreen() {
           <span className={`${styles.statVal} ${styles.statValProt}`}>
             {today.proteinG}
           </span>
-          <span className={styles.statUnit}>{t.fitness.g}</span>
-          <span className={styles.statLabel}>{t.fitness.proteinLabel}</span>
+          <span className={styles.statGoal}>из {goals.proteinG} {t.fitness.g}</span>
           <div className={styles.miniBar}>
             <div
               className={styles.miniFill}
               style={{
                 width: `${pct(today.proteinG, goals.proteinG)}%`,
-                background: 'linear-gradient(135deg, #7c3aed, #a78bfa)',
+                background: 'linear-gradient(90deg, #7c3aed, #a78bfa)',
               }}
             />
           </div>
@@ -77,14 +75,13 @@ export function FitnessScreen() {
           <span className={`${styles.statVal} ${styles.statValWater}`}>
             {today.waterMl}
           </span>
-          <span className={styles.statUnit}>{t.fitness.ml}</span>
-          <span className={styles.statLabel}>{t.fitness.waterLabel}</span>
+          <span className={styles.statGoal}>из {goals.waterMl} {t.fitness.ml}</span>
           <div className={styles.miniBar}>
             <div
               className={styles.miniFill}
               style={{
                 width: `${pct(today.waterMl, goals.waterMl)}%`,
-                background: 'linear-gradient(135deg, #06b6d4, #38bdf8)',
+                background: 'linear-gradient(90deg, #06b6d4, #38bdf8)',
               }}
             />
           </div>
