@@ -115,3 +115,28 @@
   height: 28px;
   flex-shrink: 0;
 }
+
+/* ── Light theme overrides ── */
+:root[data-theme='light'] .input {
+  background: #f3f4f6;
+  border-color: #e5e7eb;
+  color: #111827;
+}
+
+:root[data-theme='light'] .priorityOption {
+  background: #f9fafb;
+  border-color: #e5e7eb;
+  color: #6b7280;
+}
+
+:root[data-theme='light'] .addButton {
+  background: linear-gradient(135deg, #06b6d4, #7c3aed);
+}
+
+:root[data-theme='light'] .taskTitle {
+  color: #111827;
+}
+
+:root[data-theme='light'] .taskTitle.done {
+  color: #9ca3af;
+}

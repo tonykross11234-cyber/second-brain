@@ -55,7 +55,7 @@ function CalorieRing({ calories, goal }: { calories: number; goal: number }) {
           <stop offset="100%" stopColor="#7c3aed" />
         </linearGradient>
       </defs>
-      <circle cx="80" cy="80" r="70" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="10" />
+      <circle cx="80" cy="80" r="70" fill="none" stroke="var(--ring-track)" strokeWidth="10" />
       <circle
         cx="80"
         cy="80"
@@ -67,10 +67,10 @@ function CalorieRing({ calories, goal }: { calories: number; goal: number }) {
         strokeDasharray={`${pct * C} ${C}`}
         transform="rotate(-90 80 80)"
       />
-      <text x="80" y="76" textAnchor="middle" fill="white" fontSize="28" fontWeight="800" fontFamily="system-ui">
+      <text x="80" y="76" textAnchor="middle" fill="var(--ring-text)" fontSize="28" fontWeight="800" fontFamily="system-ui">
         {calories}
       </text>
-      <text x="80" y="94" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="12" fontFamily="system-ui">
+      <text x="80" y="94" textAnchor="middle" fill="var(--ring-sub)" fontSize="12" fontFamily="system-ui">
         {'/ ' + goal}
       </text>
       <text x="80" y="109" textAnchor="middle" fill="#06b6d4" fontSize="11" fontFamily="system-ui">
@@ -98,7 +98,7 @@ function MiniRing({
   const cy = size / 2
   return (
     <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size}>
-      <circle cx={cx} cy={cy} r={R} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="6" />
+      <circle cx={cx} cy={cy} r={R} fill="none" stroke="var(--ring-track)" strokeWidth="6" />
       <circle
         cx={cx}
         cy={cy}
@@ -114,7 +114,7 @@ function MiniRing({
         x={cx}
         y={cy + 5}
         textAnchor="middle"
-        fill="white"
+        fill="var(--ring-text)"
         fontSize="13"
         fontWeight="700"
         fontFamily="system-ui"

@@ -372,3 +372,51 @@
   background: linear-gradient(135deg, #ede9fe, #dbeafe);
   border: 1px solid #c4b5fd;
 }
+
+:root[data-theme='light'] .weekStrip {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 8px 4px;
+  border: 1px solid #e5e7eb;
+}
+
+:root[data-theme='light'] .weekDayLetter {
+  color: #9ca3af;
+}
+
+:root[data-theme='light'] .weekDayNum {
+  color: #111827;
+}
+
+:root[data-theme='light'] .heroSection {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 12px 8px;
+  border: 1px solid #e5e7eb;
+}
+
+:root[data-theme='light'] .insightCard {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  border-left: 3px solid #06b6d4 !important;
+}
+
+:root[data-theme='light'] .motivationText {
+  color: #374151;
+}
+
+:root[data-theme='light'] .entryPreview {
+  color: #374151;
+}
+
+:root[data-theme='light'] .widgetTitle {
+  color: #6b7280;
+}
+
+:root[data-theme='light'] .widgetValue {
+  color: #111827;
+}
+
+:root[data-theme='light'] .streakBigNum {
+  color: #f97316 !important;
+}
