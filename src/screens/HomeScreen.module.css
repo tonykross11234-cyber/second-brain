@@ -231,6 +231,7 @@
   font-size: 32px;
   font-weight: 800;
   line-height: 1;
+  color: #f97316;
 }
 
 /* ── AI INSIGHT CARD ─────────────────────────────────────────────────────── */
@@ -435,5 +436,5 @@
 }
 
 :root[data-theme='light'] .streakBigNum {
-  color: #f97316 !important;
+  color: #f97316;
 }

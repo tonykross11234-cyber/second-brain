@@ -66,6 +66,7 @@ function CalorieRing({ calories, goal }: { calories: number; goal: number }) {
         strokeLinecap="round"
         strokeDasharray={`${pct * C} ${C}`}
         transform="rotate(-90 80 80)"
+        style={{ transition: 'stroke-dasharray 0.8s cubic-bezier(0.4, 0, 0.2, 1)' }}
       />
       <text x="80" y="76" textAnchor="middle" fill="var(--ring-text)" fontSize="28" fontWeight="800" fontFamily="system-ui">
         {calories}
@@ -109,6 +110,7 @@ function MiniRing({
         strokeLinecap="round"
         strokeDasharray={`${pct * C} ${C}`}
         transform={`rotate(-90 ${cx} ${cy})`}
+        style={{ transition: 'stroke-dasharray 0.8s cubic-bezier(0.4, 0, 0.2, 1)' }}
       />
       <text
         x={cx}
@@ -121,6 +123,23 @@ function MiniRing({
       >
         {Math.round(pct * 100) + '%'}
       </text>
+    </svg>
+  )
+}
+
+function StreakFlame() {
+  return (
+    <svg viewBox="0 0 24 24" width="48" height="48">
+      <defs>
+        <linearGradient id="sfGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+          <stop offset="0%" stopColor="#f97316" />
+          <stop offset="100%" stopColor="#fbbf24" />
+        </linearGradient>
+      </defs>
+      <path
+        fill="url(#sfGrad)"
+        d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"
+      />
     </svg>
   )
 }
@@ -152,9 +171,6 @@ export function HomeScreen() {
     waterMl: 0,
   }
 
-  const weekWorkoutCount = fitnessDays.filter(
-    (d) => weekDays.includes(d.date) && (d.workout ?? 0) > 0
-  ).length
 
   const streak = calculateStreak(entries)
   const lastEntry = [...entries].sort((a, b) => (a.date < b.date ? 1 : -1))[0]
@@ -312,18 +328,9 @@ export function HomeScreen() {
         {/* Streak */}
         <div className={styles.widget}>
           <span className={styles.widgetTitle}>{t.home.streakLabel}</span>
-          <div className={styles.streakWidget}>
-            <FlameIcon />
-            <span className={styles.streakBigNum} style={{ color: '#f97316' }}>{streak}</span>
-          </div>
+          <StreakFlame />
+          <span className={styles.streakBigNum}>{streak}</span>
           <span className={styles.widgetValue}>{t.home.streakSub}</span>
-        </div>
-
-        {/* Week workouts */}
-        <div className={styles.widget}>
-          <span className={styles.widgetTitle}>{t.home.weekWorkouts}</span>
-          <MiniRing value={weekWorkoutCount} goal={7} color="#10b981" />
-          <span className={styles.widgetValue}>{weekWorkoutCount}</span>
         </div>
       </div>
 
