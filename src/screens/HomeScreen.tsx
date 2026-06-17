@@ -75,7 +75,7 @@ function CalorieRing({ calories, goal }: { calories: number; goal: number }) {
         {'/ ' + goal}
       </text>
       <text x="80" y="109" textAnchor="middle" fill="#06b6d4" fontSize="11" fontFamily="system-ui">
-        {Math.round(pct * 100) + '%'}
+        {pct === 0 ? 'kcal' : Math.round(pct * 100) + '%'}
       </text>
     </svg>
   )
@@ -266,9 +266,18 @@ export function HomeScreen() {
               onClick={() => setSelectedDate(day)}
             >
               <span className={styles.weekDayLetter}>{getDayLetter(day, language)}</span>
-              <span className={`${styles.weekDayNum} ${isToday ? styles.weekDayNumActive : ''}`}>
-                {getDayNum(day)}
-              </span>
+              {isToday ? (
+                <motion.span
+                  className={`${styles.weekDayNum} ${styles.weekDayNumActive}`}
+                  initial={{ scale: 0.6 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: 'spring', stiffness: 380, damping: 22 }}
+                >
+                  {getDayNum(day)}
+                </motion.span>
+              ) : (
+                <span className={styles.weekDayNum}>{getDayNum(day)}</span>
+              )}
               {hasFitnessData ? <span className={styles.weekDot} /> : <span className={styles.weekDotPlaceholder} />}
             </button>
           )

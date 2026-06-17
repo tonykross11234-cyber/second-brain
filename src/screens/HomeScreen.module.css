@@ -237,7 +237,19 @@
 /* ── AI INSIGHT CARD ─────────────────────────────────────────────────────── */
 .insightCard {
   padding: 16px !important;
-  border-left: 3px solid var(--accent) !important;
+  border-left: none !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.insightCard::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg, #06b6d4, #7c3aed);
 }
 
 .insightHeader {

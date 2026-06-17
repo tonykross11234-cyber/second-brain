@@ -5,7 +5,7 @@ import { useNavStore } from '../store/useNavStore'
 import { useTranslation } from '../lib/useTranslation'
 import { todayKey } from '../lib/date-utils'
 import { Card } from '../components/Card'
-import { MessageCircle, Target } from '../lib/icons'
+import { MessageCircle, Target, Flame, Dumbbell, Droplets } from '../lib/icons'
 import styles from './FitnessScreen.module.css'
 
 type GoalField = 'calories' | 'proteinG' | 'waterMl'
@@ -54,6 +54,7 @@ export function FitnessScreen() {
       <div className={styles.statsGrid}>
         {/* Calories */}
         <div className={styles.statCard}>
+          <Flame size={18} color="#f97316" />
           <span className={styles.statVal}>{today.calories}</span>
           <span className={styles.statGoal}>/ {goals.calories} {t.fitness.kcal}</span>
           <div className={styles.miniBar}>
@@ -69,6 +70,7 @@ export function FitnessScreen() {
 
         {/* Protein */}
         <div className={styles.statCard}>
+          <Dumbbell size={18} color="#a78bfa" />
           <span className={styles.statVal}>{today.proteinG}</span>
           <span className={styles.statGoal}>/ {goals.proteinG} {t.fitness.g}</span>
           <div className={styles.miniBar}>
@@ -84,6 +86,7 @@ export function FitnessScreen() {
 
         {/* Water */}
         <div className={styles.statCard}>
+          <Droplets size={18} color="#06b6d4" />
           <span className={styles.statVal}>{today.waterMl}</span>
           <span className={styles.statGoal}>/ {goals.waterMl} {t.fitness.ml}</span>
           <div className={styles.miniBar}>
