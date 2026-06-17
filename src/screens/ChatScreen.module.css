@@ -110,6 +110,14 @@
   font-style: italic;
 }
 
+.phantomBar {
+  position: fixed;
+  bottom: calc(var(--safe-bottom) + 114px);
+  left: 16px;
+  z-index: 5;
+  pointer-events: none;
+}
+
 .inputBar {
   position: fixed;
   bottom: calc(var(--safe-bottom) + 56px);

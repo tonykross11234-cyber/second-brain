@@ -3,6 +3,7 @@ import { useFitnessStore } from '../store/useFitnessStore'
 import { useTranslation } from '../lib/useTranslation'
 import { todayKey } from '../lib/date-utils'
 import { Card } from '../components/Card'
+import { Phantom } from '../components/Phantom'
 import styles from './FitnessScreen.module.css'
 
 export function FitnessScreen() {
@@ -21,6 +22,7 @@ export function FitnessScreen() {
     <div className={styles.screen}>
       <header className={styles.header}>
         <h1>{t.fitness.title}</h1>
+        <Phantom size="md" state="workout" />
       </header>
 
       <div className={styles.statsGrid}>

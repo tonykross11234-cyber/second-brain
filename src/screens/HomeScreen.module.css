@@ -11,6 +11,13 @@
   margin-bottom: 4px;
 }
 
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .greeting {
   font-size: 26px;
   font-weight: 700;

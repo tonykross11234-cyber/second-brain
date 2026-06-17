@@ -5,6 +5,7 @@ import { useTranslation } from '../lib/useTranslation'
 import { todayKey, formatDateLabel } from '../lib/date-utils'
 import { Card } from '../components/Card'
 import { EmptyState } from '../components/EmptyState'
+import { Phantom } from '../components/Phantom'
 import styles from './JournalScreen.module.css'
 
 export function JournalScreen() {
@@ -17,13 +18,16 @@ export function JournalScreen() {
 
   const [text, setText] = useState(() => todayEntry?.did ?? '')
   const [justSaved, setJustSaved] = useState(false)
+  const [showSavedPhantom, setShowSavedPhantom] = useState(false)
   const [query, setQuery] = useState('')
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
   function handleSave() {
     upsertToday(date, { did: text, plans: '', thoughts: '' })
     setJustSaved(true)
+    setShowSavedPhantom(true)
     setTimeout(() => setJustSaved(false), 2000)
+    setTimeout(() => setShowSavedPhantom(false), 3000)
   }
 
   const pastEntries = useMemo(
@@ -66,6 +70,20 @@ export function JournalScreen() {
         >
           {justSaved ? `${t.journal.saved} ✓` : t.journal.save}
         </motion.button>
+
+        <AnimatePresence>
+          {showSavedPhantom && (
+            <motion.div
+              className={styles.savedPhantom}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.25 }}
+            >
+              <Phantom size="sm" state="idle" phrase="Записал! 📝" />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </section>
 
       <section className={styles.historySection}>
@@ -80,7 +98,9 @@ export function JournalScreen() {
         />
 
         {pastEntries.length === 0 ? (
-          <EmptyState icon="📔" title={t.journal.empty} body={t.journal.emptyBody} />
+          <div className={styles.emptyPhantom}>
+            <Phantom size="lg" state="sad" />
+          </div>
         ) : filtered.length === 0 ? (
           <EmptyState icon="🔍" title={t.journal.noResults} />
         ) : (

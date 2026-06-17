@@ -11,6 +11,7 @@ import { buildSystemPrompt } from '../lib/chat-context'
 import { CHAT_TOOLS, executeChatTool } from '../lib/chat-tools'
 import type { ApiChatMessage, ContentBlock } from '../lib/anthropic-client'
 import type { Profile } from '../lib/types'
+import { Phantom } from '../components/Phantom'
 import styles from './ChatScreen.module.css'
 
 export function ChatScreen() {
@@ -172,6 +173,10 @@ export function ChatScreen() {
           </AnimatePresence>
         )}
         <div ref={bottomRef} />
+      </div>
+
+      <div className={styles.phantomBar}>
+        <Phantom size="sm" state={loading ? 'thinking' : 'idle'} />
       </div>
 
       <div className={styles.inputBar}>

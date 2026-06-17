@@ -9,6 +9,7 @@ import { useTranslation } from '../lib/useTranslation'
 import { todayKey, calculateStreak, greetingPeriod, formatDateLabel } from '../lib/date-utils'
 import { askClaude } from '../lib/anthropic-client'
 import { Card } from '../components/Card'
+import { Phantom } from '../components/Phantom'
 import styles from './HomeScreen.module.css'
 
 export function HomeScreen() {
@@ -88,10 +89,15 @@ export function HomeScreen() {
   return (
     <div className={styles.screen}>
       <header className={styles.header}>
-        <h1 className={styles.greeting}>
-          {greeting}{name ? `, ${name}` : ''}
-        </h1>
-        <p className={styles.date}>{dateLabel}</p>
+        <div className={styles.headerRow}>
+          <div>
+            <h1 className={styles.greeting}>
+              {greeting}{name ? `, ${name}` : ''}
+            </h1>
+            <p className={styles.date}>{dateLabel}</p>
+          </div>
+          <Phantom size="md" state={streak >= 7 ? 'win' : 'idle'} />
+        </div>
       </header>
 
       <div className={styles.statsRow}>
