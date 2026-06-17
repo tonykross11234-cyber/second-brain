@@ -11,7 +11,7 @@ import { buildSystemPrompt } from '../lib/chat-context'
 import { CHAT_TOOLS, executeChatTool } from '../lib/chat-tools'
 import type { ApiChatMessage, ContentBlock } from '../lib/anthropic-client'
 import type { Profile } from '../lib/types'
-import { Phantom } from '../components/Phantom'
+import { Brain, ArrowUp } from '../lib/icons'
 import styles from './ChatScreen.module.css'
 
 export function ChatScreen() {
@@ -132,7 +132,7 @@ export function ChatScreen() {
   return (
     <div className={styles.screen}>
       <header className={styles.header}>
-        <h1>{t.chat.title}</h1>
+        <h1 className={styles.title}>{t.chat.title}</h1>
         {messages.length > 0 && (
           <button type="button" className={styles.clearButton} onClick={handleClear}>
             {t.chat.clear}
@@ -143,31 +143,77 @@ export function ChatScreen() {
       <div className={styles.messages}>
         {messages.length === 0 ? (
           <div className={styles.empty}>
+            <div className={styles.emptyIcon}>
+              <Brain size={48} color="rgba(255,255,255,0.15)" strokeWidth={1.5} />
+            </div>
             <p className={styles.emptyTitle}>{t.chat.emptyTitle}</p>
             <p className={styles.emptyBody}>{t.chat.emptyBody}</p>
           </div>
         ) : (
           <AnimatePresence initial={false}>
-            {messages.map((msg) => (
-              <motion.div
-                key={msg.id}
-                className={`${styles.bubble} ${styles[msg.role]}`}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.18 }}
-              >
-                {msg.text}
-              </motion.div>
-            ))}
+            {messages.map((msg) => {
+              if (msg.role === 'user') {
+                return (
+                  <motion.div
+                    key={msg.id}
+                    className={styles.userBubble}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.18 }}
+                  >
+                    {msg.text}
+                  </motion.div>
+                )
+              }
+
+              if (msg.role === 'action') {
+                return (
+                  <motion.div
+                    key={msg.id}
+                    className={styles.actionBubble}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.18 }}
+                  >
+                    {msg.text}
+                  </motion.div>
+                )
+              }
+
+              return (
+                <motion.div
+                  key={msg.id}
+                  className={styles.assistantRow}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.18 }}
+                >
+                  <div className={styles.avatar}>
+                    <Brain size={14} color="#fff" strokeWidth={2} />
+                  </div>
+                  <div className={styles.assistantBubble}>
+                    {msg.text}
+                  </div>
+                </motion.div>
+              )
+            })}
+
             {loading && (
               <motion.div
-                key="thinking"
-                className={`${styles.bubble} ${styles.assistant} ${styles.thinking}`}
+                key="typing"
+                className={styles.assistantRow}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.18 }}
               >
-                {t.chat.thinking}
+                <div className={styles.avatar}>
+                  <Brain size={14} color="#fff" strokeWidth={2} />
+                </div>
+                <div className={styles.typingIndicator}>
+                  <span className={styles.dot} />
+                  <span className={`${styles.dot} ${styles.dot2}`} />
+                  <span className={`${styles.dot} ${styles.dot3}`} />
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
@@ -175,33 +221,31 @@ export function ChatScreen() {
         <div ref={bottomRef} />
       </div>
 
-      <div className={styles.phantomBar}>
-        <Phantom size="sm" state={loading ? 'thinking' : 'idle'} />
-      </div>
-
       <div className={styles.inputBar}>
-        <input
-          className={styles.input}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder={t.chat.placeholder}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' && !e.shiftKey) {
-              e.preventDefault()
-              handleSend()
-            }
-          }}
-          disabled={loading}
-        />
-        <motion.button
-          type="button"
-          className={styles.sendButton}
-          onClick={handleSend}
-          disabled={!input.trim() || loading}
-          whileTap={{ scale: 0.9 }}
-        >
-          ↑
-        </motion.button>
+        <div className={styles.inputInner}>
+          <input
+            className={styles.input}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder={t.chat.placeholder}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault()
+                handleSend()
+              }
+            }}
+            disabled={loading}
+          />
+          <motion.button
+            type="button"
+            className={`${styles.sendButton} ${!input.trim() || loading ? styles.sendDisabled : styles.sendActive}`}
+            onClick={handleSend}
+            disabled={!input.trim() || loading}
+            whileTap={{ scale: 0.9 }}
+          >
+            <ArrowUp size={18} color="#fff" strokeWidth={2.5} />
+          </motion.button>
+        </div>
       </div>
     </div>
   )

@@ -1,49 +1,73 @@
+@keyframes typingDot {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-6px);
+    opacity: 1;
+  }
+}
+
 .screen {
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
+  background: #111318;
 }
 
+/* ── HEADER ── */
+
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: calc(var(--safe-top) + 20px) 16px 12px;
-  max-width: 560px;
-  width: 100%;
-  margin: 0 auto;
-  flex-shrink: 0;
+  padding: calc(16px + var(--safe-top, 0px)) 16px 12px;
+  background: #111318;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.header h1 {
-  font-size: 28px;
+.title {
+  font-size: 20px;
   font-weight: 700;
+  color: #ffffff;
+  margin: 0;
 }
 
 .clearButton {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  padding: 6px 10px;
-  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.25);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
   transition: color 0.15s ease;
 }
 
 .clearButton:hover {
-  color: var(--priority-high);
+  color: rgba(255, 255, 255, 0.5);
 }
+
+/* ── MESSAGES ── */
 
 .messages {
   flex: 1;
-  padding: 4px 16px 16px;
-  max-width: 560px;
-  width: 100%;
-  margin: 0 auto;
+  overflow-y: auto;
+  padding: 12px 16px;
+  padding-top: calc(60px + var(--safe-top, 0px) + 12px);
+  padding-bottom: calc(68px + var(--safe-bottom, 0px) + 72px);
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding-bottom: calc(var(--safe-bottom) + 144px);
 }
+
+/* ── EMPTY STATE ── */
 
 .empty {
   flex: 1;
@@ -51,104 +75,161 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  padding: 40px 0;
+  gap: 12px;
   text-align: center;
+  padding: 60px 24px;
+}
+
+.emptyIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .emptyTitle {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0;
 }
 
 .emptyBody {
   font-size: 14px;
-  color: var(--text-secondary);
+  color: rgba(255, 255, 255, 0.5);
   line-height: 1.5;
-  max-width: 280px;
+  max-width: 240px;
+  margin: 0;
 }
 
-.bubble {
-  max-width: 82%;
+/* ── USER BUBBLE ── */
+
+.userBubble {
+  align-self: flex-end;
+  max-width: 75%;
+  background: linear-gradient(135deg, #06b6d4, #7c3aed);
+  border-radius: 18px 18px 4px 18px;
   padding: 10px 14px;
-  border-radius: 18px;
-  font-size: 15px;
+  color: #ffffff;
+  font-size: 14px;
   line-height: 1.5;
   white-space: pre-wrap;
   word-break: break-word;
 }
 
-.user {
-  align-self: flex-end;
-  background: var(--accent);
-  color: #fff;
-  border-bottom-right-radius: 4px;
-}
+/* ── ASSISTANT ROW ── */
 
-.assistant {
+.assistantRow {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 8px;
   align-self: flex-start;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--text);
-  border-bottom-left-radius: 4px;
+  max-width: 82%;
 }
 
-.action {
-  align-self: center;
-  background: var(--accent-soft);
-  color: var(--accent);
-  font-size: 13px;
-  font-weight: 600;
-  border-radius: var(--radius-sm);
-  padding: 6px 12px;
-  max-width: 100%;
-  text-align: center;
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #06b6d4, #7c3aed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
-.thinking {
-  color: var(--text-secondary);
+.assistantBubble {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 4px 18px 18px 18px;
+  padding: 10px 14px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ffffff;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ── ACTION BUBBLE ── */
+
+.actionBubble {
+  align-self: flex-start;
+  background: transparent;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.25);
   font-style: italic;
+  padding: 2px 0 2px 36px;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
-.phantomBar {
-  position: fixed;
-  bottom: calc(var(--safe-bottom) + 114px);
-  left: 16px;
-  z-index: 5;
-  pointer-events: none;
+/* ── TYPING INDICATOR ── */
+
+.typingIndicator {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  align-items: center;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
 }
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #06b6d4;
+  animation: typingDot 1.4s ease-in-out 0s infinite;
+}
+
+.dot2 {
+  animation-delay: 0.2s;
+}
+
+.dot3 {
+  animation-delay: 0.4s;
+}
+
+/* ── INPUT BAR ── */
 
 .inputBar {
   position: fixed;
-  bottom: calc(var(--safe-bottom) + 56px);
+  bottom: calc(68px + var(--safe-bottom, 0px));
   left: 0;
   right: 0;
-  z-index: 5;
+  z-index: 10;
+  padding: 8px 12px;
+  background: #111318;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.inputInner {
   display: flex;
-  align-items: center;
+  flex-direction: row;
   gap: 8px;
-  padding: 10px 16px;
-  background: var(--nav-bg);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-top: 1px solid var(--border);
-  max-width: 560px;
-  margin: 0 auto;
+  align-items: center;
 }
 
 .input {
   flex: 1;
-  padding: 10px 14px;
-  border-radius: 22px;
-  background: var(--surface-raised);
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 10px 16px;
   font-size: 15px;
+  color: #ffffff;
   outline: none;
   transition: border-color 0.2s ease;
 }
 
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
 .input:focus {
-  border-color: var(--accent);
+  border-color: rgba(6, 182, 212, 0.5);
 }
 
 .input:disabled {
@@ -156,20 +237,27 @@
 }
 
 .sendButton {
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: var(--accent);
-  color: #fff;
-  font-size: 18px;
-  font-weight: 700;
+  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  cursor: pointer;
   transition: opacity 0.15s ease;
 }
 
+.sendActive {
+  background: linear-gradient(135deg, #06b6d4, #7c3aed);
+}
+
+.sendDisabled {
+  background: rgba(255, 255, 255, 0.08);
+  cursor: not-allowed;
+}
+
 .sendButton:disabled {
-  opacity: 0.4;
+  cursor: not-allowed;
 }

@@ -148,3 +148,55 @@ export function Sun({ size = 24, strokeWidth = 2, ...p }: P) {
     </svg>
   )
 }
+
+export function MessageCircle({ size = 24, strokeWidth = 2, ...p }: P) {
+  return (
+    <svg {...base(size, strokeWidth)} {...p}>
+      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>
+    </svg>
+  )
+}
+
+export function CheckSquare({ size = 24, strokeWidth = 2, ...p }: P) {
+  return (
+    <svg {...base(size, strokeWidth)} {...p}>
+      <path d="m9 11 3 3L22 4"/>
+      <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+    </svg>
+  )
+}
+
+export function Clock({ size = 24, strokeWidth = 2, ...p }: P) {
+  return (
+    <svg {...base(size, strokeWidth)} {...p}>
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12 6 12 12 16 14"/>
+    </svg>
+  )
+}
+
+export function Bell({ size = 24, strokeWidth = 2, ...p }: P) {
+  return (
+    <svg {...base(size, strokeWidth)} {...p}>
+      <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+      <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+    </svg>
+  )
+}
+
+export function ArrowUp({ size = 24, strokeWidth = 2, ...p }: P) {
+  return (
+    <svg {...base(size, strokeWidth)} {...p}>
+      <path d="m5 12 7-7 7 7"/>
+      <path d="M12 19V5"/>
+    </svg>
+  )
+}
+
+export function ChevronRight({ size = 24, strokeWidth = 2, ...p }: P) {
+  return (
+    <svg {...base(size, strokeWidth)} {...p}>
+      <path d="m9 18 6-6-6-6"/>
+    </svg>
+  )
+}

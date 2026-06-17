@@ -6,7 +6,7 @@ import { todayKey, formatDateLabel } from '../lib/date-utils'
 import { Card } from '../components/Card'
 import { EmptyState } from '../components/EmptyState'
 import { Phantom } from '../components/Phantom'
-import { Search } from '../lib/icons'
+import { Search, ChevronRight } from '../lib/icons'
 import styles from './JournalScreen.module.css'
 
 export function JournalScreen() {
@@ -31,8 +31,13 @@ export function JournalScreen() {
     setTimeout(() => setShowSavedPhantom(false), 3000)
   }
 
+  const wordCount = text.split(' ').filter((w) => w.trim()).length
+
   const pastEntries = useMemo(
-    () => [...entries].filter((e) => e.date !== date).sort((a, b) => (a.date < b.date ? 1 : -1)),
+    () =>
+      [...entries]
+        .filter((e) => e.date !== date)
+        .sort((a, b) => (a.date < b.date ? 1 : -1)),
     [entries, date]
   )
 
@@ -46,14 +51,16 @@ export function JournalScreen() {
 
   return (
     <div className={styles.screen}>
+      {/* ── Header ── */}
       <header className={styles.header}>
         <h1>{t.journal.title}</h1>
       </header>
 
+      {/* ── Today Section ── */}
       <section>
         <span className={styles.sectionLabel}>{t.journal.todaySection}</span>
 
-        <Card className={styles.fieldCard}>
+        <div className={styles.writingCard}>
           <textarea
             className={styles.textarea}
             value={text}
@@ -61,12 +68,15 @@ export function JournalScreen() {
             placeholder={t.journal.textPlaceholder}
             rows={6}
           />
-        </Card>
+          <div className={styles.wordCounter}>
+            {wordCount} words
+          </div>
+        </div>
 
         <motion.button
           type="button"
-          className={styles.saveButton}
-          whileTap={{ scale: 0.96 }}
+          className={`${styles.saveButton} ${justSaved ? styles.saveButtonSaved : ''}`}
+          whileTap={{ scale: 0.97 }}
           onClick={handleSave}
         >
           {justSaved ? `${t.journal.saved} ✓` : t.journal.save}
@@ -76,9 +86,9 @@ export function JournalScreen() {
           {showSavedPhantom && (
             <motion.div
               className={styles.savedPhantom}
-              initial={{ opacity: 0, y: 8 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
+              exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.25 }}
             >
               <Phantom size="sm" state="idle" phrase="Записал!" />
@@ -87,6 +97,7 @@ export function JournalScreen() {
         </AnimatePresence>
       </section>
 
+      {/* ── History Section ── */}
       <section className={styles.historySection}>
         <span className={styles.sectionLabel}>{t.journal.historySection}</span>
 
@@ -103,7 +114,10 @@ export function JournalScreen() {
             <Phantom size="lg" state="sad" />
           </div>
         ) : filtered.length === 0 ? (
-          <EmptyState icon={<Search size={32} strokeWidth={1.5} />} title={t.journal.noResults} />
+          <EmptyState
+            icon={<Search size={32} strokeWidth={1.5} />}
+            title={t.journal.noResults}
+          />
         ) : (
           <div className={styles.list}>
             {filtered.map((entry) => {
@@ -121,24 +135,28 @@ export function JournalScreen() {
                     </span>
                     <span
                       className={styles.chevron}
-                      style={{ transform: expanded ? 'rotate(90deg)' : 'none' }}
+                      style={{ transform: expanded ? 'rotate(90deg)' : 'rotate(0deg)' }}
                     >
-                      ›
+                      <ChevronRight size={16} strokeWidth={2} />
                     </span>
                   </button>
+
                   {!expanded && preview && (
                     <p className={styles.preview}>{preview}</p>
                   )}
+
                   <AnimatePresence initial={false}>
                     {expanded && (
                       <motion.div
+                        className={styles.details}
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.22 }}
-                        className={styles.details}
                       >
-                        {preview && <p className={styles.entryBody}>{preview}</p>}
+                        {preview && (
+                          <p className={styles.entryBody}>{preview}</p>
+                        )}
                       </motion.div>
                     )}
                   </AnimatePresence>

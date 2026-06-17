@@ -1,25 +1,32 @@
 :root {
-  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
 
-  /* Aurora Glass Dark (default) */
-  --bg: #0a0a0f;
-  --surface: rgba(255, 255, 255, 0.03);
-  --surface-raised: rgba(255, 255, 255, 0.06);
-  --border: rgba(255, 255, 255, 0.07);
+  /* ── Bitget Wallet Dark ── */
+  --bg: #111318;
+  --bg-primary: #111318;
+  --bg-secondary: #1a1d24;
+  --surface: rgba(255, 255, 255, 0.04);
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --surface-raised: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.08);
   --text: #ffffff;
+  --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.5);
+  --text-muted: rgba(255, 255, 255, 0.25);
   --text-dim: rgba(255, 255, 255, 0.25);
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --nav-bg: #0a0a0f;
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  --nav-bg: #111318;
 
-  /* Accent */
-  --accent: #a78bfa;
-  --accent-strong: #7c3aed;
-  --accent-soft: rgba(167, 139, 250, 0.15);
-  --accent-gradient: linear-gradient(135deg, #a78bfa, #38bdf8);
-  --accent-gradient-btn: linear-gradient(135deg, #7c3aed, #2563eb);
+  /* Accent — cyan primary, purple secondary */
+  --accent: #06b6d4;
+  --accent-cyan: #06b6d4;
+  --accent-purple: #7c3aed;
+  --accent-strong: #0891b2;
+  --accent-soft: rgba(6, 182, 212, 0.12);
+  --accent-gradient: linear-gradient(135deg, #06b6d4, #7c3aed);
+  --accent-gradient-btn: linear-gradient(135deg, #06b6d4, #7c3aed);
 
-  /* Priority colors */
+  /* Priority */
   --priority-high: #f87171;
   --priority-high-soft: rgba(248, 113, 113, 0.15);
   --priority-medium: #fbbf24;
@@ -28,9 +35,10 @@
   --priority-low-soft: rgba(52, 211, 153, 0.15);
 
   /* Radii */
-  --radius-sm: 10px;
+  --radius-sm: 12px;
   --radius-md: 16px;
   --radius-lg: 20px;
+  --radius-xl: 24px;
 
   /* Safe areas */
   --safe-top: env(safe-area-inset-top, 0px);
@@ -39,49 +47,56 @@
   --safe-right: env(safe-area-inset-right, 0px);
 }
 
-/* Dark — same as :root, explicit override */
 :root[data-theme='dark'] {
-  --bg: #0a0a0f;
-  --surface: rgba(255, 255, 255, 0.03);
-  --surface-raised: rgba(255, 255, 255, 0.06);
-  --border: rgba(255, 255, 255, 0.07);
+  --bg: #111318;
+  --bg-primary: #111318;
+  --bg-secondary: #1a1d24;
+  --surface: rgba(255, 255, 255, 0.04);
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --surface-raised: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.08);
   --text: #ffffff;
+  --text-primary: #ffffff;
   --text-secondary: rgba(255, 255, 255, 0.5);
+  --text-muted: rgba(255, 255, 255, 0.25);
   --text-dim: rgba(255, 255, 255, 0.25);
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-  --nav-bg: #0a0a0f;
-  --accent: #a78bfa;
-  --accent-strong: #7c3aed;
-  --accent-soft: rgba(167, 139, 250, 0.15);
+  --shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  --nav-bg: #111318;
+  --accent: #06b6d4;
+  --accent-cyan: #06b6d4;
+  --accent-purple: #7c3aed;
+  --accent-soft: rgba(6, 182, 212, 0.12);
+  --accent-gradient: linear-gradient(135deg, #06b6d4, #7c3aed);
+  --accent-gradient-btn: linear-gradient(135deg, #06b6d4, #7c3aed);
 }
 
-/* Minimal Light */
 :root[data-theme='light'] {
-  --bg: #f8f8fc;
+  --bg: #f0f2f8;
+  --bg-primary: #f0f2f8;
+  --bg-secondary: #ffffff;
   --surface: #ffffff;
-  --surface-raised: #f3f4f6;
+  --bg-card: #ffffff;
+  --surface-raised: #f5f6fa;
   --border: #e5e7eb;
   --text: #111827;
+  --text-primary: #111827;
   --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
   --text-dim: #9ca3af;
   --shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
-  --nav-bg: rgba(248, 248, 252, 0.96);
+  --nav-bg: rgba(240, 242, 248, 0.96);
   --accent: #7c3aed;
+  --accent-cyan: #0891b2;
+  --accent-purple: #7c3aed;
   --accent-strong: #5b21b6;
   --accent-soft: rgba(124, 58, 237, 0.1);
-  --accent-gradient: linear-gradient(135deg, #7c3aed, #2563eb);
-  --accent-gradient-btn: linear-gradient(135deg, #7c3aed, #2563eb);
+  --accent-gradient: linear-gradient(135deg, #0891b2, #7c3aed);
+  --accent-gradient-btn: linear-gradient(135deg, #0891b2, #7c3aed);
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-html,
-body {
-  margin: 0;
-  padding: 0;
-}
+html, body { margin: 0; padding: 0; }
 
 body {
   background: var(--bg);
@@ -92,42 +107,26 @@ body {
   transition: background 0.25s ease, color 0.25s ease;
 }
 
-#root {
-  min-height: 100dvh;
-}
+/* Hide scrollbars globally */
+* { scrollbar-width: none; -ms-overflow-style: none; }
+*::-webkit-scrollbar { display: none; }
 
-button,
-input,
-textarea {
-  font-family: inherit;
-  color: inherit;
-}
+#root { min-height: 100dvh; }
 
-button {
-  cursor: pointer;
-  background: none;
-  border: none;
-}
+button, input, textarea { font-family: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: none; }
+h1, h2, h3, p { margin: 0; }
 
-h1,
-h2,
-h3,
-p {
-  margin: 0;
-}
-
-/* Autofill — dark */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
   -webkit-text-fill-color: var(--text);
-  -webkit-box-shadow: 0 0 0 1000px #0a0a0f inset;
+  -webkit-box-shadow: 0 0 0 1000px #111318 inset;
 }
 
-/* Autofill — light */
 :root[data-theme='light'] input:-webkit-autofill,
 :root[data-theme='light'] input:-webkit-autofill:hover,
 :root[data-theme='light'] input:-webkit-autofill:focus {
-  -webkit-text-fill-color: #0d0d14;
-  -webkit-box-shadow: 0 0 0 1000px #f8f8fc inset;
+  -webkit-text-fill-color: #111827;
+  -webkit-box-shadow: 0 0 0 1000px #ffffff inset;
 }

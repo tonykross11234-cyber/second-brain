@@ -38,85 +38,104 @@ export function ProfileScreen() {
     setBiometrics({ age: v != null && !isNaN(v) ? v : null })
   }
 
+  const initials = name
+    ? name.split(' ').map((w) => w[0]).join('').toUpperCase().slice(0, 2)
+    : '?'
+
   return (
     <div className={styles.screen}>
-      <header className={styles.header}>
-        <h1>{t.profile.title}</h1>
-      </header>
 
-      <Card className={styles.section}>
+      {/* 1. TOP AVATAR SECTION */}
+      <div className={styles.avatarSection}>
+        <div className={styles.avatarCircle}>
+          <span className={styles.avatarInitials}>{initials}</span>
+        </div>
+        {name ? (
+          <p className={styles.avatarName}>{name}</p>
+        ) : (
+          <p className={styles.avatarNameEmpty}>Имя не указано</p>
+        )}
+        <p className={styles.avatarSub}>В приложении с сегодня</p>
+      </div>
+
+      {/* 2. NAME CARD */}
+      <Card className={styles.card}>
+        <span className={styles.sectionLabel}>ПРОФИЛЬ</span>
         <div className={styles.fieldRow}>
-          <label className={styles.fieldLabel} htmlFor="p-name">{t.profile.nameLabel}</label>
+          <span className={styles.fieldLabel}>{t.profile.nameLabel}</span>
           <input
-            id="p-name"
             className={styles.textInput}
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder={t.profile.namePlaceholder}
           />
         </div>
+      </Card>
+
+      {/* 3. BIOMETRICS CARD */}
+      <Card className={styles.card}>
+        <span className={styles.sectionLabel}>ФИЗИЧЕСКИЕ ДАННЫЕ</span>
+
+        <div className={styles.fieldRow}>
+          <span className={styles.fieldLabel}>{t.profile.weight}</span>
+          <div className={styles.bioRight}>
+            <input
+              type="number"
+              className={styles.numberInput}
+              value={weightKg ?? ''}
+              onChange={(e) => handleWeightChange(e.target.value)}
+              placeholder="—"
+              min={0}
+              max={300}
+            />
+            <span className={styles.unit}>{t.profile.weightUnit}</span>
+          </div>
+        </div>
 
         <div className={styles.divider} />
 
-        <span className={styles.sectionTitle}>{t.profile.biometrics}</span>
-        <div className={styles.biometricsRow}>
-          <div className={styles.bioField}>
-            <label className={styles.bioLabel} htmlFor="p-weight">{t.profile.weight}</label>
-            <div className={styles.bioInput}>
-              <input
-                id="p-weight"
-                type="number"
-                className={styles.numberInput}
-                value={weightKg ?? ''}
-                onChange={(e) => handleWeightChange(e.target.value)}
-                placeholder="—"
-                min={0}
-                max={300}
-              />
-              <span className={styles.unit}>{t.profile.weightUnit}</span>
-            </div>
+        <div className={styles.fieldRow}>
+          <span className={styles.fieldLabel}>{t.profile.height}</span>
+          <div className={styles.bioRight}>
+            <input
+              type="number"
+              className={styles.numberInput}
+              value={heightCm ?? ''}
+              onChange={(e) => handleHeightChange(e.target.value)}
+              placeholder="—"
+              min={0}
+              max={300}
+            />
+            <span className={styles.unit}>{t.profile.heightUnit}</span>
           </div>
-          <div className={styles.bioField}>
-            <label className={styles.bioLabel} htmlFor="p-height">{t.profile.height}</label>
-            <div className={styles.bioInput}>
-              <input
-                id="p-height"
-                type="number"
-                className={styles.numberInput}
-                value={heightCm ?? ''}
-                onChange={(e) => handleHeightChange(e.target.value)}
-                placeholder="—"
-                min={0}
-                max={300}
-              />
-              <span className={styles.unit}>{t.profile.heightUnit}</span>
-            </div>
-          </div>
-          <div className={styles.bioField}>
-            <label className={styles.bioLabel} htmlFor="p-age">{t.profile.age}</label>
-            <div className={styles.bioInput}>
-              <input
-                id="p-age"
-                type="number"
-                className={styles.numberInput}
-                value={age ?? ''}
-                onChange={(e) => handleAgeChange(e.target.value)}
-                placeholder="—"
-                min={0}
-                max={120}
-              />
-              <span className={styles.unit}>{t.profile.ageUnit}</span>
-            </div>
+        </div>
+
+        <div className={styles.divider} />
+
+        <div className={styles.fieldRow}>
+          <span className={styles.fieldLabel}>{t.profile.age}</span>
+          <div className={styles.bioRight}>
+            <input
+              type="number"
+              className={styles.numberInput}
+              value={age ?? ''}
+              onChange={(e) => handleAgeChange(e.target.value)}
+              placeholder="—"
+              min={0}
+              max={120}
+            />
+            <span className={styles.unit}>{t.profile.ageUnit}</span>
           </div>
         </div>
       </Card>
 
-      <Card className={styles.section}>
-        <span className={styles.sectionTitle}>{t.pin.sectionTitle}</span>
+      {/* 4. SECURITY CARD */}
+      <Card className={styles.card}>
+        <span className={styles.sectionLabel}>{t.pin.sectionTitle}</span>
         <div className={styles.pinRow}>
           <div className={styles.pinInfo}>
             <span className={styles.pinLabel}>{t.pin.enabledLabel}</span>
-            <span className={`${styles.pinStatus} ${pinEnabled ? styles.pinOn : styles.pinOff}`}>
+            <span className={`${styles.pinBadge} ${pinEnabled ? styles.pinBadgeOn : styles.pinBadgeOff}`}>
               {pinEnabled ? t.pin.enabledOn : t.pin.enabledOff}
             </span>
           </div>
@@ -132,17 +151,18 @@ export function ProfileScreen() {
         <p className={styles.disclaimer}>{t.pin.disclaimer}</p>
       </Card>
 
-      <Card className={styles.section}>
-        <span className={styles.sectionTitle}>{t.settings.appearance}</span>
+      {/* 5. SETTINGS CARD */}
+      <Card className={styles.card}>
+        <span className={styles.sectionLabel}>{t.settings.appearance}</span>
 
         <div className={styles.settingsRow}>
           <span className={styles.fieldLabel}>{t.settings.theme}</span>
-          <div className={styles.toggle}>
+          <div className={styles.segmented}>
             {([['dark', t.settings.themeDark], ['light', t.settings.themeLight]] as [Theme, string][]).map(([val, label]) => (
               <button
                 key={val}
                 type="button"
-                className={`${styles.toggleOption} ${theme === val ? styles.toggleActive : ''}`}
+                className={`${styles.segOption} ${theme === val ? styles.segActive : ''}`}
                 onClick={() => setTheme(val)}
               >
                 {label}
@@ -155,12 +175,12 @@ export function ProfileScreen() {
 
         <div className={styles.settingsRow}>
           <span className={styles.fieldLabel}>{t.settings.language}</span>
-          <div className={styles.toggle}>
+          <div className={styles.segmented}>
             {([['ru', 'RU'], ['en', 'EN']] as [Language, string][]).map(([val, label]) => (
               <button
                 key={val}
                 type="button"
-                className={`${styles.toggleOption} ${language === val ? styles.toggleActive : ''}`}
+                className={`${styles.segOption} ${language === val ? styles.segActive : ''}`}
                 onClick={() => setLanguage(val)}
               >
                 {label}
@@ -170,6 +190,7 @@ export function ProfileScreen() {
         </div>
       </Card>
 
+      {/* 6. PIN SETUP OVERLAY */}
       {showPinSetup && (
         <div className={styles.overlay}>
           <PinSetupFlow

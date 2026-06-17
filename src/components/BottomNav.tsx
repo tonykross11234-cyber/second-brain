@@ -1,7 +1,6 @@
-import type { ReactElement } from 'react'
 import type { TabKey } from '../lib/types'
 import { useTranslation } from '../lib/useTranslation'
-import { Home, Dumbbell, Brain, BookOpen, User } from '../lib/icons'
+import { Home, Dumbbell, BookOpen, User, MessageCircle } from '../lib/icons'
 import styles from './BottomNav.module.css'
 
 interface BottomNavProps {
@@ -12,36 +11,54 @@ interface BottomNavProps {
 export function BottomNav({ active, onChange }: BottomNavProps) {
   const { t } = useTranslation()
 
-  const tabs: { key: TabKey; label: string }[] = [
-    { key: 'home',    label: t.nav.home },
-    { key: 'fitness', label: t.nav.fitness },
-    { key: 'chat',    label: t.nav.chat },
-    { key: 'journal', label: t.nav.journal },
-    { key: 'profile', label: t.nav.profile },
-  ]
-
-  const icons: Record<TabKey, ReactElement> = {
-    home:    <Home    size={22} strokeWidth={2} />,
-    fitness: <Dumbbell size={22} strokeWidth={2} />,
-    chat:    <Brain   size={22} strokeWidth={2} />,
-    journal: <BookOpen size={22} strokeWidth={2} />,
-    profile: <User    size={22} strokeWidth={2} />,
-  }
-
   return (
     <nav className={styles.nav}>
-      {tabs.map((tab) => (
+      <button
+        type="button"
+        className={`${styles.tab} ${active === 'home' ? styles.active : ''}`}
+        onClick={() => onChange('home')}
+      >
+        <span className={styles.icon}><Home size={22} strokeWidth={1.8} /></span>
+        <span className={styles.label}>{t.nav.home}</span>
+      </button>
+
+      <button
+        type="button"
+        className={`${styles.tab} ${active === 'fitness' ? styles.active : ''}`}
+        onClick={() => onChange('fitness')}
+      >
+        <span className={styles.icon}><Dumbbell size={22} strokeWidth={1.8} /></span>
+        <span className={styles.label}>{t.nav.fitness}</span>
+      </button>
+
+      <div className={styles.centerSlot}>
         <button
-          key={tab.key}
           type="button"
-          className={`${styles.tab} ${active === tab.key ? styles.active : ''}`}
-          onClick={() => onChange(tab.key)}
-          aria-current={active === tab.key}
+          className={`${styles.centerBtn} ${active === 'chat' ? styles.centerActive : ''}`}
+          onClick={() => onChange('chat')}
+          aria-label={t.nav.chat}
         >
-          <span className={styles.icon}>{icons[tab.key]}</span>
-          <span className={styles.label}>{tab.label}</span>
+          <MessageCircle size={24} strokeWidth={2} />
         </button>
-      ))}
+      </div>
+
+      <button
+        type="button"
+        className={`${styles.tab} ${active === 'journal' ? styles.active : ''}`}
+        onClick={() => onChange('journal')}
+      >
+        <span className={styles.icon}><BookOpen size={22} strokeWidth={1.8} /></span>
+        <span className={styles.label}>{t.nav.journal}</span>
+      </button>
+
+      <button
+        type="button"
+        className={`${styles.tab} ${active === 'profile' ? styles.active : ''}`}
+        onClick={() => onChange('profile')}
+      >
+        <span className={styles.icon}><User size={22} strokeWidth={1.8} /></span>
+        <span className={styles.label}>{t.nav.profile}</span>
+      </button>
     </nav>
   )
 }
