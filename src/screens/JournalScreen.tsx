@@ -5,7 +5,6 @@ import { useTranslation } from '../lib/useTranslation'
 import { todayKey, formatDateLabel } from '../lib/date-utils'
 import { Card } from '../components/Card'
 import { EmptyState } from '../components/EmptyState'
-import { Ghost } from '../components/Ghost'
 import { Search, ChevronRight } from '../lib/icons'
 import styles from './JournalScreen.module.css'
 
@@ -19,16 +18,13 @@ export function JournalScreen() {
 
   const [text, setText] = useState(() => todayEntry?.did ?? '')
   const [justSaved, setJustSaved] = useState(false)
-  const [showSavedPhantom, setShowSavedPhantom] = useState(false)
   const [query, setQuery] = useState('')
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
   function handleSave() {
     upsertToday(date, { did: text, plans: '', thoughts: '' })
     setJustSaved(true)
-    setShowSavedPhantom(true)
     setTimeout(() => setJustSaved(false), 2000)
-    setTimeout(() => setShowSavedPhantom(false), 3000)
   }
 
   const wordCount = text.split(' ').filter((w) => w.trim()).length
@@ -82,19 +78,6 @@ export function JournalScreen() {
           {justSaved ? `${t.journal.saved} ✓` : t.journal.save}
         </motion.button>
 
-        <AnimatePresence>
-          {showSavedPhantom && (
-            <motion.div
-              className={styles.savedPhantom}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.25 }}
-            >
-              <Ghost size="sm" state="idle" phrase="Записал!" />
-            </motion.div>
-          )}
-        </AnimatePresence>
       </section>
 
       {/* ── History Section ── */}
@@ -110,9 +93,10 @@ export function JournalScreen() {
         />
 
         {pastEntries.length === 0 ? (
-          <div className={styles.emptyPhantom}>
-            <Ghost size="lg" state="sad" />
-          </div>
+          <EmptyState
+            icon={<Search size={32} strokeWidth={1.5} />}
+            title={t.journal.noResults}
+          />
         ) : filtered.length === 0 ? (
           <EmptyState
             icon={<Search size={32} strokeWidth={1.5} />}
