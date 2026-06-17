@@ -7,6 +7,7 @@ interface TasksState {
   addTask: (title: string, priority: Priority) => void
   toggleDone: (id: string) => void
   deleteTask: (id: string) => void
+  updateTask: (id: string, changes: Partial<Pick<Task, 'title' | 'priority' | 'done'>>) => void
 }
 
 export const useTasksStore = create<TasksState>()(
@@ -34,6 +35,20 @@ export const useTasksStore = create<TasksState>()(
       },
       deleteTask: (id) => {
         set((state) => ({ tasks: state.tasks.filter((t) => t.id !== id) }))
+      },
+      updateTask: (id, changes) => {
+        set((state) => ({
+          tasks: state.tasks.map((t) =>
+            t.id === id
+              ? {
+                  ...t,
+                  ...changes,
+                  completedAt:
+                    changes.done === undefined ? t.completedAt : changes.done ? Date.now() : undefined,
+                }
+              : t
+          ),
+        }))
       },
     }),
     { name: 'second-brain:tasks' }

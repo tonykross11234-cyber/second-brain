@@ -3,14 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useTasksStore } from '../store/useTasksStore'
 import { useTranslation } from '../lib/useTranslation'
 import type { Priority } from '../lib/types'
-import { Card } from '../components/Card'
-import { PriorityBadge } from '../components/PriorityBadge'
-import { EmptyState } from '../components/EmptyState'
-import styles from './TasksScreen.module.css'
+import { Card } from './Card'
+import { PriorityBadge } from './PriorityBadge'
+import { EmptyState } from './EmptyState'
+import styles from './TasksSection.module.css'
 
 const PRIORITY_ORDER: Priority[] = ['high', 'medium', 'low']
 
-export function TasksScreen() {
+export function TasksSection() {
   const { t } = useTranslation()
   const tasks = useTasksStore((s) => s.tasks)
   const addTask = useTasksStore((s) => s.addTask)
@@ -38,11 +38,7 @@ export function TasksScreen() {
   }
 
   return (
-    <div className={styles.screen}>
-      <header className={styles.header}>
-        <h1>{t.tasks.title}</h1>
-      </header>
-
+    <div className={styles.wrap}>
       <Card className={styles.addCard}>
         <input
           className={styles.input}

@@ -9,33 +9,27 @@ interface BottomNavProps {
 }
 
 const ICONS: Record<TabKey, ReactElement> = {
-  today: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-      <circle cx="12" cy="12" r="4" />
-      <path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" />
+  home: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M3 11l9-8 9 8" />
+      <path d="M5 10v10h14V10" />
     </svg>
   ),
-  entries: (
+  chat: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 11.5a8.5 8.5 0 1 1-3.8-7.1L21 3l-1 4.6a8.5 8.5 0 0 1 1 3.9z" />
+      <path d="M3 21l1.6-4.1" />
+    </svg>
+  ),
+  journal: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M5 4h11a2 2 0 0 1 2 2v14l-3-2-3 2-3-2-3 2V6a2 2 0 0 1 2-2z" />
     </svg>
   ),
-  ai: (
+  profile: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3z" />
-      <path d="M19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8L19 14z" />
-    </svg>
-  ),
-  tasks: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M9 11l2 2 4-4" />
-      <rect x="3" y="4" width="18" height="16" rx="3" />
-    </svg>
-  ),
-  settings: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="3" />
-      <path d="M19.4 13a8 8 0 0 0 0-2l2-1.5-2-3.4-2.4.7a8 8 0 0 0-1.7-1L15 3h-4l-.3 2.8a8 8 0 0 0-1.7 1l-2.4-.7-2 3.4L6.6 11a8 8 0 0 0 0 2l-2 1.5 2 3.4 2.4-.7a8 8 0 0 0 1.7 1L11 21h4l.3-2.8a8 8 0 0 0 1.7-1l2.4.7 2-3.4-2-1.5z" />
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
     </svg>
   ),
 }
@@ -44,11 +38,10 @@ export function BottomNav({ active, onChange }: BottomNavProps) {
   const { t } = useTranslation()
 
   const tabs: { key: TabKey; label: string }[] = [
-    { key: 'today', label: t.nav.today },
-    { key: 'entries', label: t.nav.entries },
-    { key: 'ai', label: t.nav.ai },
-    { key: 'tasks', label: t.nav.tasks },
-    { key: 'settings', label: t.nav.settings },
+    { key: 'home', label: t.nav.home },
+    { key: 'chat', label: t.nav.chat },
+    { key: 'journal', label: t.nav.journal },
+    { key: 'profile', label: t.nav.profile },
   ]
 
   return (

@@ -21,4 +21,26 @@ export interface Task {
   completedAt?: number
 }
 
-export type TabKey = 'today' | 'entries' | 'ai' | 'tasks' | 'settings'
+export type TabKey = 'home' | 'chat' | 'journal' | 'profile'
+
+export interface Profile {
+  name: string
+  weightKg: number | null
+  heightCm: number | null
+  age: number | null
+  pinEnabled: boolean
+  pinCode: string | null
+  pinSetupOffered: boolean
+}
+
+export interface ChatTurn {
+  id: string
+  role: 'user' | 'assistant' | 'action'
+  text: string
+  createdAt: number
+}
+
+export interface DailyMotivation {
+  date: string
+  text: string
+}

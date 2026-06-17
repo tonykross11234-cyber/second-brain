@@ -1,0 +1,15 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.cancel {
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 600;
+  background: none;
+  border: none;
+  padding: 8px;
+}

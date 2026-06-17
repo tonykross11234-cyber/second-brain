@@ -11,7 +11,7 @@ interface VercelResponse {
 
 interface ChatMessage {
   role: 'user' | 'assistant'
-  content: string
+  content: unknown
 }
 
 interface ChatRequestBody {
@@ -19,13 +19,15 @@ interface ChatRequestBody {
   system?: string
   model?: string
   max_tokens?: number
+  tools?: unknown[]
+  tool_choice?: unknown
 }
 
 const ANTHROPIC_URL = 'https://api.anthropic.com/v1/messages'
 const ANTHROPIC_VERSION = '2023-06-01'
 const DEFAULT_MODEL = 'claude-haiku-4-5-20251001'
-const DEFAULT_MAX_TOKENS = 512
-const MAX_TOKENS_CAP = 2048
+const DEFAULT_MAX_TOKENS = 1024
+const MAX_TOKENS_CAP = 4096
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -41,7 +43,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const body = (req.body ?? {}) as ChatRequestBody
-  const { messages, system, model, max_tokens } = body
+  const { messages, system, model, max_tokens, tools, tool_choice } = body
 
   if (!Array.isArray(messages) || messages.length === 0) {
     res.status(400).json({ error: '"messages" must be a non-empty array' })
@@ -66,6 +68,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         system,
         messages,
         max_tokens: cappedMaxTokens,
+        tools,
+        tool_choice,
       }),
     })
 

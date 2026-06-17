@@ -2,33 +2,37 @@ import { useEffect, useState } from 'react'
 import type { ComponentType } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { BottomNav } from './components/BottomNav'
-import { TodayScreen } from './screens/TodayScreen'
-import { EntriesScreen } from './screens/EntriesScreen'
-import { AIScreen } from './screens/AIScreen'
-import { TasksScreen } from './screens/TasksScreen'
-import { SettingsScreen } from './screens/SettingsScreen'
+import { PinLockScreen } from './components/PinLockScreen'
+import { HomeScreen } from './screens/HomeScreen'
+import { ChatScreen } from './screens/ChatScreen'
+import { JournalScreen } from './screens/JournalScreen'
+import { ProfileScreen } from './screens/ProfileScreen'
 import { useApplyTheme } from './lib/useApplyTheme'
 import { useSettingsStore } from './store/useSettingsStore'
 import { useEntriesStore } from './store/useEntriesStore'
 import { useTasksStore } from './store/useTasksStore'
+import { useProfileStore } from './store/useProfileStore'
+import { useNavStore } from './store/useNavStore'
 import { buildSeedEntries, buildSeedTasks } from './lib/seed-data'
 import type { TabKey } from './lib/types'
 import styles from './App.module.css'
 
 const SCREENS: Record<TabKey, ComponentType> = {
-  today: TodayScreen,
-  entries: EntriesScreen,
-  ai: AIScreen,
-  tasks: TasksScreen,
-  settings: SettingsScreen,
+  home: HomeScreen,
+  chat: ChatScreen,
+  journal: JournalScreen,
+  profile: ProfileScreen,
 }
 
 function App() {
   useApplyTheme()
 
-  const [activeTab, setActiveTab] = useState<TabKey>('today')
+  const { activeTab, navigate } = useNavStore()
   const hasSeeded = useSettingsStore((s) => s.hasSeeded)
   const markSeeded = useSettingsStore((s) => s.markSeeded)
+  const pinEnabled = useProfileStore((s) => s.pinEnabled)
+  const pinSetupOffered = useProfileStore((s) => s.pinSetupOffered)
+  const [unlocked, setUnlocked] = useState(false)
 
   useEffect(() => {
     if (!hasSeeded) {
@@ -37,6 +41,10 @@ function App() {
       markSeeded()
     }
   }, [hasSeeded, markSeeded])
+
+  if (!unlocked && (!pinSetupOffered || pinEnabled)) {
+    return <PinLockScreen onUnlock={() => setUnlocked(true)} />
+  }
 
   const ActiveScreen = SCREENS[activeTab]
 
@@ -55,7 +63,7 @@ function App() {
           </motion.div>
         </AnimatePresence>
       </main>
-      <BottomNav active={activeTab} onChange={setActiveTab} />
+      <BottomNav active={activeTab} onChange={navigate} />
     </div>
   )
 }

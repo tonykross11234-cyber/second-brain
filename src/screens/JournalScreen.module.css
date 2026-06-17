@@ -2,7 +2,7 @@
   padding: calc(var(--safe-top) + 20px) 16px 100px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   max-width: 560px;
   margin: 0 auto;
 }
@@ -10,6 +10,70 @@
 .header h1 {
   font-size: 28px;
   font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.sectionLabel {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+
+.fieldCard {
+  padding: 14px 16px !important;
+  margin-bottom: 8px;
+}
+
+.label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
+.textarea {
+  width: 100%;
+  resize: none;
+  border: none;
+  background: transparent;
+  font-size: 15px;
+  line-height: 1.55;
+  outline: none;
+  color: var(--text);
+}
+
+.textarea::placeholder {
+  color: var(--text-secondary);
+}
+
+.saveButton {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  margin-top: 4px;
+  transition: opacity 0.15s ease;
+}
+
+.saveButton:active {
+  opacity: 0.85;
+}
+
+.historySection {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .search {
@@ -19,21 +83,23 @@
   background: var(--surface);
   border: 1px solid var(--border);
   font-size: 16px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s ease;
 }
 
 .search:focus {
-  outline: none;
   border-color: var(--accent);
 }
 
 .list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .entryCard {
-  padding: 14px 16px;
+  padding: 14px 16px !important;
 }
 
 .entryHeader {
@@ -54,6 +120,7 @@
   color: var(--text-secondary);
   font-size: 18px;
   transition: transform 0.2s ease;
+  flex-shrink: 0;
 }
 
 .preview {
@@ -82,11 +149,11 @@
 }
 
 .fieldLabel {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
   color: var(--accent);
   text-transform: uppercase;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
 }
 
 .field p {
