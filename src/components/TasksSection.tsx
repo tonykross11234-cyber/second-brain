@@ -6,7 +6,7 @@ import type { Priority } from '../lib/types'
 import { Card } from './Card'
 import { PriorityBadge } from './PriorityBadge'
 import { EmptyState } from './EmptyState'
-import { Target } from '../lib/icons'
+import { Target, Trash2, Check } from '../lib/icons'
 import styles from './TasksSection.module.css'
 
 const PRIORITY_ORDER: Priority[] = ['high', 'medium', 'low']
@@ -91,7 +91,7 @@ export function TasksSection() {
                     onClick={() => toggleDone(task.id)}
                     aria-label="toggle done"
                   >
-                    {task.done && '✓'}
+                    {task.done && <Check size={14} strokeWidth={2.5} />}
                   </button>
                   <span className={`${styles.taskTitle} ${task.done ? styles.done : ''}`}>
                     {task.title}
@@ -103,7 +103,7 @@ export function TasksSection() {
                     onClick={() => deleteTask(task.id)}
                     aria-label="delete task"
                   >
-                    ×
+                    <Trash2 size={16} strokeWidth={2} color="var(--priority-high)" />
                   </button>
                 </Card>
               </motion.div>

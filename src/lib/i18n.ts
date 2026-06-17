@@ -34,6 +34,9 @@ export const translations = {
       quickFitness: 'Fitness',
       quickTasks: 'Tasks',
       quickHistory: 'History',
+      eaten: 'Eaten',
+      weekWorkouts: 'Workouts',
+      weekLabel: 'This week',
     },
     fitness: {
       title: 'Fitness',
@@ -73,6 +76,8 @@ export const translations = {
       empty: 'No entries yet',
       emptyBody: 'Start writing above to see your history here.',
       noResults: 'No entries match your search',
+      tabEntry: 'Entry',
+      tabTasks: 'Tasks',
     },
     tasks: {
       title: 'Tasks',
@@ -174,6 +179,9 @@ export const translations = {
       quickFitness: 'Фитнес',
       quickTasks: 'Задачи',
       quickHistory: 'История',
+      eaten: 'Съедено',
+      weekWorkouts: 'Тренировок',
+      weekLabel: 'За неделю',
     },
     fitness: {
       title: 'Фитнес',
@@ -213,6 +221,8 @@ export const translations = {
       empty: 'Пока нет записей',
       emptyBody: 'Начни писать выше — здесь появится история.',
       noResults: 'Ничего не найдено',
+      tabEntry: 'Запись',
+      tabTasks: 'Задачи',
     },
     tasks: {
       title: 'Задачи',

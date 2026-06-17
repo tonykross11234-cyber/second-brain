@@ -1,6 +1,6 @@
 /* ── Screen ── */
 .screen {
-  padding: 0 16px 100px;
+  padding: 0 16px calc(80px + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   max-width: 560px;

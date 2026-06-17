@@ -10,19 +10,122 @@ import { todayKey, calculateStreak, greetingPeriod, formatDateLabel } from '../l
 import { askClaude } from '../lib/anthropic-client'
 import { Card } from '../components/Card'
 import { FlameIcon } from '../components/FlameIcon'
-import {
-  Bell,
-  BookOpen,
-  Dumbbell,
-  CheckSquare,
-  Clock,
-  Flame,
-  Zap,
-  Droplets,
-  MessageCircle,
-  ChevronRight,
-} from '../lib/icons'
+import { Bell, Dumbbell, MessageCircle, ChevronRight } from '../lib/icons'
 import styles from './HomeScreen.module.css'
+
+// ── Week helpers ──────────────────────────────────────────────────────────────
+
+function getWeekDays(todayStr: string): string[] {
+  const [y, m, d] = todayStr.split('-').map(Number)
+  const date = new Date(y, m - 1, d)
+  const dow = date.getDay()
+  const mondayOffset = dow === 0 ? -6 : 1 - dow
+  const mon = new Date(date)
+  mon.setDate(date.getDate() + mondayOffset)
+  return Array.from({ length: 7 }, (_, i) => {
+    const dd = new Date(mon)
+    dd.setDate(mon.getDate() + i)
+    return `${dd.getFullYear()}-${String(dd.getMonth() + 1).padStart(2, '0')}-${String(dd.getDate()).padStart(2, '0')}`
+  })
+}
+
+const DAY_RU = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+const DAY_EN = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+
+function getDayLetter(dateKey: string, lang: string): string {
+  const [y, m, d] = dateKey.split('-').map(Number)
+  return (lang === 'ru' ? DAY_RU : DAY_EN)[new Date(y, m - 1, d).getDay()]
+}
+
+function getDayNum(dateKey: string): string {
+  return dateKey.split('-')[2].replace(/^0/, '')
+}
+
+// ── SVG components ─────────────────────────────────────────────────────────────
+
+function CalorieRing({ calories, goal }: { calories: number; goal: number }) {
+  const R = 70
+  const C = 2 * Math.PI * R
+  const pct = Math.min(1, goal > 0 ? calories / goal : 0)
+  return (
+    <svg viewBox="0 0 160 160" width="160" height="160">
+      <defs>
+        <linearGradient id="calGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#06b6d4" />
+          <stop offset="100%" stopColor="#7c3aed" />
+        </linearGradient>
+      </defs>
+      <circle cx="80" cy="80" r="70" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="10" />
+      <circle
+        cx="80"
+        cy="80"
+        r="70"
+        fill="none"
+        stroke="url(#calGrad)"
+        strokeWidth="10"
+        strokeLinecap="round"
+        strokeDasharray={`${pct * C} ${C}`}
+        transform="rotate(-90 80 80)"
+      />
+      <text x="80" y="76" textAnchor="middle" fill="white" fontSize="28" fontWeight="800" fontFamily="system-ui">
+        {calories}
+      </text>
+      <text x="80" y="94" textAnchor="middle" fill="rgba(255,255,255,0.4)" fontSize="12" fontFamily="system-ui">
+        {'/ ' + goal}
+      </text>
+      <text x="80" y="109" textAnchor="middle" fill="#06b6d4" fontSize="11" fontFamily="system-ui">
+        {Math.round(pct * 100) + '%'}
+      </text>
+    </svg>
+  )
+}
+
+function MiniRing({
+  value,
+  goal,
+  color,
+  size = 70,
+}: {
+  value: number
+  goal: number
+  color: string
+  size?: number
+}) {
+  const R = 28
+  const C = 2 * Math.PI * R
+  const pct = Math.min(1, goal > 0 ? value / goal : 0)
+  const cx = size / 2
+  const cy = size / 2
+  return (
+    <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size}>
+      <circle cx={cx} cy={cy} r={R} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="6" />
+      <circle
+        cx={cx}
+        cy={cy}
+        r={R}
+        fill="none"
+        stroke={color}
+        strokeWidth="6"
+        strokeLinecap="round"
+        strokeDasharray={`${pct * C} ${C}`}
+        transform={`rotate(-90 ${cx} ${cy})`}
+      />
+      <text
+        x={cx}
+        y={cy + 5}
+        textAnchor="middle"
+        fill="white"
+        fontSize="13"
+        fontWeight="700"
+        fontFamily="system-ui"
+      >
+        {Math.round(pct * 100) + '%'}
+      </text>
+    </svg>
+  )
+}
+
+// ── Main screen ───────────────────────────────────────────────────────────────
 
 export function HomeScreen() {
   const { t, language } = useTranslation()
@@ -37,13 +140,24 @@ export function HomeScreen() {
   const goals = useFitnessStore((s) => s.goals)
 
   const [motivationLoading, setMotivationLoading] = useState(false)
+  const [selectedDate, setSelectedDate] = useState(() => todayKey())
 
   const today = todayKey()
-  const todayFitness = fitnessDays.find((d) => d.date === today) ?? {
+  const weekDays = getWeekDays(today)
+
+  const selectedFitness = fitnessDays.find((d) => d.date === selectedDate) ?? {
     calories: 0,
     proteinG: 0,
     waterMl: 0,
   }
+
+  const weekWorkoutCount = fitnessDays.filter((d) => {
+    return (
+      weekDays.includes(d.date) &&
+      (d.calories > 0 || d.proteinG > 0 || d.waterMl > 0)
+    )
+  }).length
+
   const streak = calculateStreak(entries)
   const lastEntry = [...entries].sort((a, b) => (a.date < b.date ? 1 : -1))[0]
 
@@ -105,75 +219,6 @@ export function HomeScreen() {
       ? motivation.text
       : t.home.motivationFallback
 
-  function pct(val: number, goal: number) {
-    return Math.min(100, goal > 0 ? Math.round((val / goal) * 100) : 0)
-  }
-
-  const calPct = pct(todayFitness.calories, goals.calories)
-  const protPct = pct(todayFitness.proteinG, goals.proteinG)
-  const waterPct = pct(todayFitness.waterMl, goals.waterMl)
-
-  const quickActions = [
-    {
-      label: t.home.quickJournal,
-      icon: <BookOpen size={22} color="#7c3aed" />,
-      color: '#7c3aed',
-      bg: 'rgba(124,58,237,0.10)',
-      tab: 'journal' as const,
-    },
-    {
-      label: t.home.quickFitness,
-      icon: <Dumbbell size={22} color="#06b6d4" />,
-      color: '#06b6d4',
-      bg: 'rgba(6,182,212,0.10)',
-      tab: 'fitness' as const,
-    },
-    {
-      label: t.home.quickTasks,
-      icon: <CheckSquare size={22} color="#10b981" />,
-      color: '#10b981',
-      bg: 'rgba(16,185,129,0.10)',
-      tab: 'journal' as const,
-    },
-    {
-      label: t.home.quickHistory,
-      icon: <Clock size={22} color="#f59e0b" />,
-      color: '#f59e0b',
-      bg: 'rgba(245,158,11,0.10)',
-      tab: 'journal' as const,
-    },
-  ]
-
-  const progressRows = [
-    {
-      icon: <Flame size={20} color="#f97316" />,
-      label: t.home.caloriesLabel,
-      value: todayFitness.calories,
-      goal: goals.calories,
-      unit: t.fitness.kcal,
-      pct: calPct,
-      gradient: 'linear-gradient(90deg, #f97316, #fbbf24)',
-    },
-    {
-      icon: <Zap size={20} color="#7c3aed" />,
-      label: t.home.proteinLabel,
-      value: todayFitness.proteinG,
-      goal: goals.proteinG,
-      unit: t.fitness.g,
-      pct: protPct,
-      gradient: 'linear-gradient(90deg, #7c3aed, #a78bfa)',
-    },
-    {
-      icon: <Droplets size={20} color="#06b6d4" />,
-      label: t.home.waterLabel,
-      value: todayFitness.waterMl,
-      goal: goals.waterMl,
-      unit: t.fitness.ml,
-      pct: waterPct,
-      gradient: 'linear-gradient(90deg, #06b6d4, #38bdf8)',
-    },
-  ]
-
   return (
     <div className={styles.screen}>
       {/* 1. HEADER */}
@@ -191,60 +236,91 @@ export function HomeScreen() {
         <Bell size={20} color="rgba(255,255,255,0.4)" />
       </header>
 
-      {/* 2. HERO STREAK CARD */}
-      <div className={styles.heroCard}>
-        <div className={styles.auroraOrb} />
-        <div className={styles.heroLeft}>
-          <div className={styles.heroFlameRow}>
+      {/* 2. WEEK STRIP */}
+      <div className={styles.weekStrip}>
+        {weekDays.map((day) => {
+          const isToday = day === today
+          const isSelected = day === selectedDate
+          const hasFitnessData = fitnessDays.some(
+            (fd) => fd.date === day && (fd.calories > 0 || fd.proteinG > 0 || fd.waterMl > 0)
+          )
+          return (
+            <button
+              key={day}
+              type="button"
+              className={`${styles.weekDay} ${isSelected && !isToday ? styles.weekDaySelected : ''}`}
+              onClick={() => setSelectedDate(day)}
+            >
+              <span className={styles.weekDayLetter}>{getDayLetter(day, language)}</span>
+              <span className={`${styles.weekDayNum} ${isToday ? styles.weekDayNumActive : ''}`}>
+                {getDayNum(day)}
+              </span>
+              {hasFitnessData ? <span className={styles.weekDot} /> : <span className={styles.weekDotPlaceholder} />}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* 3. HERO SECTION */}
+      <div className={styles.heroSection}>
+        <div className={styles.heroSide}>
+          <div className={styles.heroSideIcon}>
             <FlameIcon />
-            <span className={styles.streakNumber}>{streak}</span>
           </div>
-          <div className={styles.streakSub}>{t.home.streakSub}</div>
-          <div className={styles.streakLabel}>{t.home.streakLabel}</div>
+          <span className={styles.heroSideLabel}>{t.home.eaten}</span>
+          <span className={styles.heroSideVal}>{selectedFitness.calories}</span>
+        </div>
+
+        <div className={styles.heroCenter}>
+          <CalorieRing calories={selectedFitness.calories} goal={goals.calories} />
+        </div>
+
+        <div className={styles.heroSide}>
+          <div className={styles.heroSideIcon}>
+            <Dumbbell size={22} color="#06b6d4" />
+          </div>
+          <span className={styles.heroSideLabel}>{t.home.weekWorkouts}</span>
+          <span className={styles.heroSideVal}>{weekWorkoutCount}</span>
         </div>
       </div>
 
-      {/* 3. QUICK ACTIONS */}
-      <div className={styles.quickActions}>
-        {quickActions.map((a) => (
-          <button
-            key={a.label}
-            type="button"
-            className={styles.quickBtn}
-            style={{ background: a.bg }}
-            onClick={() => navigate(a.tab)}
-          >
-            {a.icon}
-            <span className={styles.quickLabel} style={{ color: a.color }}>
-              {a.label}
-            </span>
-          </button>
-        ))}
-      </div>
-
-      {/* 4. PROGRESS CARD */}
-      <Card className={styles.progressCard} onClick={() => navigate('fitness')}>
-        <span className={styles.sectionLabel}>{t.home.progressLabel}</span>
-        <div className={styles.progressRows}>
-          {progressRows.map((row) => (
-            <div key={row.label} className={styles.progressItem}>
-              <div className={styles.progressItemHeader}>
-                {row.icon}
-                <span className={styles.progressItemName}>{row.label}</span>
-                <span className={styles.progressItemValue}>
-                  {row.value} / {row.goal} {row.unit}
-                </span>
-              </div>
-              <div className={styles.progressBar}>
-                <div
-                  className={styles.progressFill}
-                  style={{ width: `${row.pct}%`, background: row.gradient }}
-                />
-              </div>
-            </div>
-          ))}
+      {/* 4. HORIZONTAL SCROLLABLE WIDGETS */}
+      <div className={styles.widgetsRow}>
+        {/* Protein */}
+        <div className={styles.widget}>
+          <span className={styles.widgetTitle}>{t.home.proteinLabel}</span>
+          <MiniRing value={selectedFitness.proteinG} goal={goals.proteinG} color="#a78bfa" />
+          <span className={styles.widgetValue}>
+            {selectedFitness.proteinG}{t.fitness.g}
+          </span>
         </div>
-      </Card>
+
+        {/* Water */}
+        <div className={styles.widget}>
+          <span className={styles.widgetTitle}>{t.home.waterLabel}</span>
+          <MiniRing value={selectedFitness.waterMl} goal={goals.waterMl} color="#06b6d4" />
+          <span className={styles.widgetValue}>
+            {selectedFitness.waterMl}{t.fitness.ml}
+          </span>
+        </div>
+
+        {/* Streak */}
+        <div className={styles.widget}>
+          <span className={styles.widgetTitle}>{t.home.streakLabel}</span>
+          <div className={styles.streakWidget}>
+            <FlameIcon />
+            <span className={styles.streakBigNum} style={{ color: '#f97316' }}>{streak}</span>
+          </div>
+          <span className={styles.widgetValue}>{t.home.streakSub}</span>
+        </div>
+
+        {/* Week workouts */}
+        <div className={styles.widget}>
+          <span className={styles.widgetTitle}>{t.home.weekWorkouts}</span>
+          <MiniRing value={weekWorkoutCount} goal={7} color="#10b981" />
+          <span className={styles.widgetValue}>{weekWorkoutCount}</span>
+        </div>
+      </div>
 
       {/* 5. AI INSIGHT CARD */}
       <Card className={styles.insightCard}>

@@ -1,5 +1,6 @@
+/* ── SCREEN WRAPPER ──────────────────────────────────────────────────────── */
 .screen {
-  padding: calc(var(--safe-top, 0px) + 20px) 16px 100px;
+  padding: calc(env(safe-area-inset-top, 0px) + 20px) 16px calc(80px + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -7,7 +8,7 @@
   margin: 0 auto;
 }
 
-/* ── HEADER ─────────────────────────────────────────────────── */
+/* ── HEADER ──────────────────────────────────────────────────────────────── */
 .header {
   display: flex;
   align-items: center;
@@ -56,170 +57,166 @@
   text-transform: capitalize;
 }
 
-/* ── HERO STREAK CARD ────────────────────────────────────────── */
-.heroCard {
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(6, 182, 212, 0.1));
-  border: 1px solid rgba(124, 58, 237, 0.2);
-  border-radius: 24px;
-  padding: 20px;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.auroraOrb {
-  position: absolute;
-  right: -20px;
-  top: -20px;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(6, 182, 212, 0.15), transparent);
-  pointer-events: none;
-}
-
-.heroLeft {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  z-index: 1;
-}
-
-.heroFlameRow {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.streakNumber {
-  font-size: 48px;
-  font-weight: 800;
-  line-height: 1;
-  background: linear-gradient(135deg, #06b6d4, #7c3aed);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.streakSub {
-  font-size: 12px;
-  color: var(--text-secondary);
-  margin-top: 2px;
-}
-
-.streakLabel {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--accent);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-top: 2px;
-}
-
-.heroPhantom {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 1;
-}
-
-/* ── QUICK ACTIONS ───────────────────────────────────────────── */
-.quickActions {
+/* ── WEEK STRIP ──────────────────────────────────────────────────────────── */
+.weekStrip {
   display: flex;
   justify-content: space-between;
-  gap: 8px;
+  padding: 8px 0;
 }
 
-.quickBtn {
+.weekDay {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  border-radius: 16px;
-  padding: 14px 8px;
+  gap: 2px;
+  padding: 6px 0;
   cursor: pointer;
-  transition: opacity 0.15s ease;
+  border-radius: 12px;
   border: none;
+  background: transparent;
+  transition: background 0.15s ease;
 }
 
-.quickBtn:active {
-  opacity: 0.75;
+.weekDay:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 
-.quickLabel {
+.weekDaySelected {
+  background: rgba(255, 255, 255, 0.06);
+  border-bottom: 2px solid var(--accent);
+}
+
+.weekDayLetter {
   font-size: 11px;
   font-weight: 500;
-  line-height: 1;
-}
-
-/* ── PROGRESS CARD ───────────────────────────────────────────── */
-.progressCard {
-  cursor: pointer;
-  padding: 16px !important;
-}
-
-.sectionLabel {
-  display: block;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--accent);
+  color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 12px;
 }
 
-.progressRows {
+.weekDayNum {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.weekDayNumActive {
+  background: linear-gradient(135deg, #06b6d4, #7c3aed);
+  color: #fff;
+}
+
+.weekDot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #06b6d4;
+}
+
+.weekDotPlaceholder {
+  width: 4px;
+  height: 4px;
+}
+
+/* ── HERO SECTION ────────────────────────────────────────────────────────── */
+.heroSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 0;
+}
+
+.heroSide {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+
+.heroSideIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heroSideLabel {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.heroSideVal {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.heroCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── WIDGETS ROW ─────────────────────────────────────────────────────────── */
+.widgetsRow {
+  display: flex;
   gap: 12px;
+  overflow-x: auto;
+  padding: 4px 0;
+  scrollbar-width: none;
 }
 
-.progressItem {
+.widgetsRow::-webkit-scrollbar {
+  display: none;
+}
+
+.widget {
+  width: 130px;
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 6px;
 }
 
-.progressItemHeader {
+.widgetTitle {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+.widgetValue {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+}
+
+.streakWidget {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
 }
 
-.progressItemName {
-  font-size: 14px;
-  color: var(--text-secondary);
-  flex: 1;
+.streakBigNum {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
 }
 
-.progressItemValue {
-  font-size: 13px;
-  color: var(--text-muted);
-}
-
-.progressBar {
-  height: 4px;
-  border-radius: 4px;
-  background: rgba(255, 255, 255, 0.08);
-  overflow: hidden;
-}
-
-:root[data-theme='light'] .progressBar {
-  background: #e5e7eb;
-}
-
-.progressFill {
-  height: 100%;
-  border-radius: 4px;
-  transition: width 0.4s ease;
-  min-width: 0;
-}
-
-/* ── AI INSIGHT CARD ─────────────────────────────────────────── */
+/* ── AI INSIGHT CARD ─────────────────────────────────────────────────────── */
 .insightCard {
   padding: 16px !important;
   border-left: 3px solid var(--accent) !important;
@@ -243,8 +240,14 @@
 }
 
 @keyframes pulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.4); opacity: 0.5; }
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 0.5;
+  }
 }
 
 .phantomLabel {
@@ -265,7 +268,7 @@
   color: var(--text-secondary);
 }
 
-/* ── CTA BUTTON ──────────────────────────────────────────────── */
+/* ── CTA BUTTON ──────────────────────────────────────────────────────────── */
 .ctaButton {
   width: 100%;
   height: 52px;
@@ -283,7 +286,18 @@
   cursor: pointer;
 }
 
-/* ── LAST ENTRY CARD ─────────────────────────────────────────── */
+/* ── SECTION LABEL ───────────────────────────────────────────────────────── */
+.sectionLabel {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+}
+
+/* ── LAST ENTRY CARD ─────────────────────────────────────────────────────── */
 .lastEntryCard {
   padding: 16px !important;
   cursor: pointer;
@@ -336,15 +350,25 @@
   padding: 8px 0;
 }
 
-/* ── Light theme overrides ── */
+/* ── LIGHT THEME OVERRIDES ───────────────────────────────────────────────── */
+:root[data-theme='light'] .weekDay:hover {
+  background: #f3f4f6;
+}
+
+:root[data-theme='light'] .weekDaySelected {
+  background: #f3f4f6;
+}
+
+:root[data-theme='light'] .widget {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+:root[data-theme='light'] .heroSideVal {
+  color: #111827;
+}
+
 :root[data-theme='light'] .heroCard {
   background: linear-gradient(135deg, #ede9fe, #dbeafe);
   border: 1px solid #c4b5fd;
-}
-
-:root[data-theme='light'] .streakNumber {
-  background: linear-gradient(135deg, #7c3aed, #0891b2);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
 }

@@ -19,6 +19,7 @@ export interface Task {
   done: boolean
   createdAt: number
   completedAt?: number
+  date?: string // YYYY-MM-DD
 }
 
 export type TabKey = 'home' | 'fitness' | 'chat' | 'journal' | 'profile'

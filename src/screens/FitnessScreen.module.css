@@ -1,6 +1,6 @@
 /* ─── Screen container ──────────────────────────────────────────────── */
 .screen {
-  padding: 16px 16px 100px;
+  padding: 16px 16px calc(80px + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   gap: 12px;

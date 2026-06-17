@@ -1,6 +1,6 @@
 /* ── Screen wrapper ── */
 .screen {
-  padding: 16px 16px 100px;
+  padding: 16px 16px calc(80px + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   max-width: 560px;
@@ -200,6 +200,34 @@
   margin: 0;
 }
 
+/* ── Tab bar ── */
+.tabBar {
+  display: flex;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 3px;
+  gap: 0;
+  margin-bottom: 20px;
+}
+
+.tab {
+  flex: 1;
+  height: 36px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.tabActive {
+  background: linear-gradient(135deg, #06b6d4, #7c3aed);
+  color: #fff;
+}
+
 /* ── Light theme overrides ── */
 :root[data-theme='light'] .writingCard {
   background: #ffffff;
@@ -226,4 +254,15 @@
 
 :root[data-theme='light'] .search:focus {
   border-color: #06b6d4;
+}
+
+:root[data-theme='light'] .tabBar {
+  background: #f3f4f6;
+}
+:root[data-theme='light'] .tab {
+  color: #9ca3af;
+}
+:root[data-theme='light'] .tabActive {
+  background: linear-gradient(135deg, #06b6d4, #7c3aed);
+  color: #fff;
 }
