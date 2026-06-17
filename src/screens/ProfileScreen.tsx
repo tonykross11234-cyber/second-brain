@@ -2,11 +2,14 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useProfileStore } from '../store/useProfileStore'
 import { useSettingsStore } from '../store/useSettingsStore'
+import { useFitnessStore } from '../store/useFitnessStore'
 import { useTranslation } from '../lib/useTranslation'
 import type { Theme, Language } from '../lib/types'
 import { Card } from '../components/Card'
 import { PinSetupFlow } from '../components/PinSetupFlow'
 import styles from './ProfileScreen.module.css'
+
+type GoalField = 'calories' | 'proteinG' | 'waterMl'
 
 export function ProfileScreen() {
   const { t } = useTranslation()
@@ -21,7 +24,24 @@ export function ProfileScreen() {
   const setTheme = useSettingsStore((s) => s.setTheme)
   const setLanguage = useSettingsStore((s) => s.setLanguage)
 
+  const goals = useFitnessStore((s) => s.goals)
+  const setGoals = useFitnessStore((s) => s.setGoals)
+
   const [showPinSetup, setShowPinSetup] = useState(false)
+  const [editingGoal, setEditingGoal] = useState<GoalField | null>(null)
+  const [draftValue, setDraftValue] = useState('')
+
+  function startEdit(field: GoalField, current: number) {
+    setEditingGoal(field)
+    setDraftValue(String(current))
+  }
+
+  function commitEdit() {
+    if (!editingGoal) return
+    const v = parseInt(draftValue, 10)
+    if (!isNaN(v) && v > 0) setGoals({ [editingGoal]: v })
+    setEditingGoal(null)
+  }
 
   function handleWeightChange(raw: string) {
     const v = raw === '' ? null : parseFloat(raw)
@@ -129,7 +149,82 @@ export function ProfileScreen() {
         </div>
       </Card>
 
-      {/* 4. SECURITY CARD */}
+      {/* 4. GOALS CARD */}
+      <Card className={styles.card}>
+        <span className={styles.sectionLabel}>ЦЕЛИ НА ДЕНЬ</span>
+
+        <div className={styles.fieldRow}>
+          <span className={styles.fieldLabel}>{t.fitness.goalCalories}</span>
+          {editingGoal === 'calories' ? (
+            <div className={styles.goalEditRow}>
+              <input
+                type="number" min={1} autoFocus
+                className={styles.goalInput}
+                value={draftValue}
+                onChange={(e) => setDraftValue(e.target.value)}
+                onBlur={commitEdit}
+                onKeyDown={(e) => e.key === 'Enter' && commitEdit()}
+              />
+              <span className={styles.unit}>{t.fitness.kcal}</span>
+            </div>
+          ) : (
+            <button type="button" className={styles.goalValBtn}
+              onClick={() => startEdit('calories', goals.calories)}>
+              {goals.calories} {t.fitness.kcal}
+            </button>
+          )}
+        </div>
+
+        <div className={styles.divider} />
+
+        <div className={styles.fieldRow}>
+          <span className={styles.fieldLabel}>{t.fitness.goalProtein}</span>
+          {editingGoal === 'proteinG' ? (
+            <div className={styles.goalEditRow}>
+              <input
+                type="number" min={1} autoFocus
+                className={styles.goalInput}
+                value={draftValue}
+                onChange={(e) => setDraftValue(e.target.value)}
+                onBlur={commitEdit}
+                onKeyDown={(e) => e.key === 'Enter' && commitEdit()}
+              />
+              <span className={styles.unit}>{t.fitness.g}</span>
+            </div>
+          ) : (
+            <button type="button" className={styles.goalValBtn}
+              onClick={() => startEdit('proteinG', goals.proteinG)}>
+              {goals.proteinG} {t.fitness.g}
+            </button>
+          )}
+        </div>
+
+        <div className={styles.divider} />
+
+        <div className={styles.fieldRow}>
+          <span className={styles.fieldLabel}>{t.fitness.goalWater}</span>
+          {editingGoal === 'waterMl' ? (
+            <div className={styles.goalEditRow}>
+              <input
+                type="number" min={1} autoFocus
+                className={styles.goalInput}
+                value={draftValue}
+                onChange={(e) => setDraftValue(e.target.value)}
+                onBlur={commitEdit}
+                onKeyDown={(e) => e.key === 'Enter' && commitEdit()}
+              />
+              <span className={styles.unit}>{t.fitness.ml}</span>
+            </div>
+          ) : (
+            <button type="button" className={styles.goalValBtn}
+              onClick={() => startEdit('waterMl', goals.waterMl)}>
+              {goals.waterMl} {t.fitness.ml}
+            </button>
+          )}
+        </div>
+      </Card>
+
+      {/* 5. SECURITY CARD */}
       <Card className={styles.card}>
         <span className={styles.sectionLabel}>{t.pin.sectionTitle}</span>
         <div className={styles.pinRow}>
