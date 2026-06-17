@@ -37,6 +37,7 @@ export const translations = {
       eaten: 'Eaten',
       weekWorkouts: 'Workouts',
       weekLabel: 'This week',
+      workoutLabel: 'Workout',
     },
     fitness: {
       title: 'Fitness',
@@ -182,6 +183,7 @@ export const translations = {
       eaten: 'Съедено',
       weekWorkouts: 'Тренировок',
       weekLabel: 'За неделю',
+      workoutLabel: 'Тренировка',
     },
     fitness: {
       title: 'Фитнес',

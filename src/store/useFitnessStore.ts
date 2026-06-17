@@ -7,6 +7,7 @@ export interface FitnessDay {
   calories: number
   proteinG: number
   waterMl: number
+  workout?: number
 }
 
 export interface FitnessGoals {
@@ -21,6 +22,7 @@ interface FitnessState {
   getTodayData: () => FitnessDay
   addToday: (delta: Partial<Omit<FitnessDay, 'date'>>) => void
   setTodayField: (data: Partial<Omit<FitnessDay, 'date'>>) => void
+  addWorkout: () => void
   setGoals: (goals: Partial<FitnessGoals>) => void
   reset: () => void
 }
@@ -86,6 +88,21 @@ export const useFitnessStore = create<FitnessState>()(
             return { days: state.days.map((d) => (d.date === date ? { ...d, ...data } : d)) }
           }
           return { days: [...state.days, { ...emptyDay(date), ...data }] }
+        })
+      },
+
+      addWorkout: () => {
+        const date = todayKey()
+        set((state) => {
+          const existing = state.days.find((d) => d.date === date)
+          if (existing) {
+            return {
+              days: state.days.map((d) =>
+                d.date === date ? { ...d, workout: (d.workout ?? 0) + 1 } : d
+              ),
+            }
+          }
+          return { days: [...state.days, { ...emptyDay(date), workout: 1 }] }
         })
       },
 

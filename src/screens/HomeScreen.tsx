@@ -138,6 +138,7 @@ export function HomeScreen() {
 
   const fitnessDays = useFitnessStore((s) => s.days)
   const goals = useFitnessStore((s) => s.goals)
+  const addWorkout = useFitnessStore((s) => s.addWorkout)
 
   const [motivationLoading, setMotivationLoading] = useState(false)
   const [selectedDate, setSelectedDate] = useState(() => todayKey())
@@ -151,12 +152,9 @@ export function HomeScreen() {
     waterMl: 0,
   }
 
-  const weekWorkoutCount = fitnessDays.filter((d) => {
-    return (
-      weekDays.includes(d.date) &&
-      (d.calories > 0 || d.proteinG > 0 || d.waterMl > 0)
-    )
-  }).length
+  const weekWorkoutCount = fitnessDays.filter(
+    (d) => weekDays.includes(d.date) && (d.workout ?? 0) > 0
+  ).length
 
   const streak = calculateStreak(entries)
   const lastEntry = [...entries].sort((a, b) => (a.date < b.date ? 1 : -1))[0]
@@ -267,8 +265,7 @@ export function HomeScreen() {
           <div className={styles.heroSideIcon}>
             <FlameIcon />
           </div>
-          <span className={styles.heroSideLabel}>{t.home.eaten}</span>
-          <span className={styles.heroSideVal}>{selectedFitness.calories}</span>
+          <span className={styles.heroSideLabel}>{t.home.caloriesLabel}</span>
         </div>
 
         <div className={styles.heroCenter}>
@@ -279,8 +276,16 @@ export function HomeScreen() {
           <div className={styles.heroSideIcon}>
             <Dumbbell size={22} color="#06b6d4" />
           </div>
-          <span className={styles.heroSideLabel}>{t.home.weekWorkouts}</span>
-          <span className={styles.heroSideVal}>{weekWorkoutCount}</span>
+          <span className={styles.heroSideLabel}>{t.home.workoutLabel}</span>
+          <motion.button
+            type="button"
+            className={styles.workoutBtn}
+            whileTap={{ scale: 0.88 }}
+            onClick={addWorkout}
+            aria-label="log workout"
+          >
+            +
+          </motion.button>
         </div>
       </div>
 
