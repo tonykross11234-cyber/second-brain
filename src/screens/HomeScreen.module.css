@@ -35,12 +35,16 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
+  cursor: pointer;
 }
 
 .statValue {
   font-size: 32px;
   font-weight: 800;
-  color: var(--accent);
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   line-height: 1;
 }
 
@@ -56,18 +60,12 @@
 .statSub {
   font-size: 13px;
   color: var(--text-secondary);
+  text-transform: capitalize;
 }
 
-.statDone {
-  font-size: 12px;
-  color: var(--priority-low);
-  font-weight: 600;
-  margin-top: 2px;
-}
-
-.motivationCard {
+.fitnessCard {
   padding: 16px !important;
-  border-left: 3px solid var(--accent) !important;
+  cursor: pointer;
 }
 
 .sectionLabel {
@@ -77,7 +75,43 @@
   color: var(--accent);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
+}
+
+.progressRow {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.progressVal {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.progressGoal {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.progressBar {
+  height: 6px;
+  background: var(--surface-raised);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.4s ease;
+  min-width: 0;
+}
+
+.motivationCard {
+  padding: 16px !important;
+  border-left: 3px solid var(--accent) !important;
 }
 
 .motivationText {
@@ -126,37 +160,20 @@
   font-style: italic;
 }
 
-.actions {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 4px;
-}
-
-.actionButton {
+.askAiButton {
   width: 100%;
-  padding: 14px 16px;
-  border-radius: var(--radius-md);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  font-size: 15px;
-  font-weight: 600;
-  text-align: left;
-  color: var(--text);
-  transition: background 0.15s ease;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  background: var(--accent-gradient-btn);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.01em;
+  margin-top: 4px;
+  transition: opacity 0.15s ease;
 }
 
-.actionButton:active {
-  background: var(--surface-raised);
-}
-
-.actionAccent {
-  background: var(--accent-soft);
-  border-color: transparent;
-  color: var(--accent);
-}
-
-.actionAccent:active {
-  background: var(--accent-soft);
-  opacity: 0.8;
+.askAiButton:active {
+  opacity: 0.85;
 }

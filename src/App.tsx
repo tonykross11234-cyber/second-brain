@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { BottomNav } from './components/BottomNav'
 import { PinLockScreen } from './components/PinLockScreen'
 import { HomeScreen } from './screens/HomeScreen'
+import { FitnessScreen } from './screens/FitnessScreen'
 import { ChatScreen } from './screens/ChatScreen'
 import { JournalScreen } from './screens/JournalScreen'
 import { ProfileScreen } from './screens/ProfileScreen'
@@ -19,6 +20,7 @@ import styles from './App.module.css'
 
 const SCREENS: Record<TabKey, ComponentType> = {
   home: HomeScreen,
+  fitness: FitnessScreen,
   chat: ChatScreen,
   journal: JournalScreen,
   profile: ProfileScreen,

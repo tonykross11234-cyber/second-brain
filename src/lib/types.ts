@@ -21,7 +21,7 @@ export interface Task {
   completedAt?: number
 }
 
-export type TabKey = 'home' | 'chat' | 'journal' | 'profile'
+export type TabKey = 'home' | 'fitness' | 'chat' | 'journal' | 'profile'
 
 export interface Profile {
   name: string

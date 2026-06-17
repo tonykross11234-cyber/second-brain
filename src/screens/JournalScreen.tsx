@@ -15,15 +15,13 @@ export function JournalScreen() {
 
   const todayEntry = entries.find((e) => e.date === date)
 
-  const [did, setDid] = useState(() => todayEntry?.did ?? '')
-  const [plans, setPlans] = useState(() => todayEntry?.plans ?? '')
-  const [thoughts, setThoughts] = useState(() => todayEntry?.thoughts ?? '')
+  const [text, setText] = useState(() => todayEntry?.did ?? '')
   const [justSaved, setJustSaved] = useState(false)
   const [query, setQuery] = useState('')
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
   function handleSave() {
-    upsertToday(date, { did, plans, thoughts })
+    upsertToday(date, { did: text, plans: '', thoughts: '' })
     setJustSaved(true)
     setTimeout(() => setJustSaved(false), 2000)
   }
@@ -51,38 +49,12 @@ export function JournalScreen() {
         <span className={styles.sectionLabel}>{t.journal.todaySection}</span>
 
         <Card className={styles.fieldCard}>
-          <label className={styles.label} htmlFor="j-did">{t.journal.did}</label>
           <textarea
-            id="j-did"
             className={styles.textarea}
-            value={did}
-            onChange={(e) => setDid(e.target.value)}
-            placeholder={t.journal.didPlaceholder}
-            rows={3}
-          />
-        </Card>
-
-        <Card className={styles.fieldCard}>
-          <label className={styles.label} htmlFor="j-plans">{t.journal.plans}</label>
-          <textarea
-            id="j-plans"
-            className={styles.textarea}
-            value={plans}
-            onChange={(e) => setPlans(e.target.value)}
-            placeholder={t.journal.plansPlaceholder}
-            rows={3}
-          />
-        </Card>
-
-        <Card className={styles.fieldCard}>
-          <label className={styles.label} htmlFor="j-thoughts">{t.journal.thoughts}</label>
-          <textarea
-            id="j-thoughts"
-            className={styles.textarea}
-            value={thoughts}
-            onChange={(e) => setThoughts(e.target.value)}
-            placeholder={t.journal.thoughtsPlaceholder}
-            rows={3}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder={t.journal.textPlaceholder}
+            rows={6}
           />
         </Card>
 
@@ -115,6 +87,7 @@ export function JournalScreen() {
           <div className={styles.list}>
             {filtered.map((entry) => {
               const expanded = expandedId === entry.id
+              const preview = entry.did || entry.thoughts || entry.plans
               return (
                 <Card key={entry.id} className={styles.entryCard}>
                   <button
@@ -132,10 +105,8 @@ export function JournalScreen() {
                       ›
                     </span>
                   </button>
-                  {!expanded && (
-                    <p className={styles.preview}>
-                      {entry.did || entry.thoughts || entry.plans}
-                    </p>
+                  {!expanded && preview && (
+                    <p className={styles.preview}>{preview}</p>
                   )}
                   <AnimatePresence initial={false}>
                     {expanded && (
@@ -146,24 +117,7 @@ export function JournalScreen() {
                         transition={{ duration: 0.22 }}
                         className={styles.details}
                       >
-                        {entry.did && (
-                          <div className={styles.field}>
-                            <span className={styles.fieldLabel}>{t.journal.historyDid}</span>
-                            <p>{entry.did}</p>
-                          </div>
-                        )}
-                        {entry.plans && (
-                          <div className={styles.field}>
-                            <span className={styles.fieldLabel}>{t.journal.historyPlans}</span>
-                            <p>{entry.plans}</p>
-                          </div>
-                        )}
-                        {entry.thoughts && (
-                          <div className={styles.field}>
-                            <span className={styles.fieldLabel}>{t.journal.historyThoughts}</span>
-                            <p>{entry.thoughts}</p>
-                          </div>
-                        )}
+                        {preview && <p className={styles.entryBody}>{preview}</p>}
                       </motion.div>
                     )}
                   </AnimatePresence>

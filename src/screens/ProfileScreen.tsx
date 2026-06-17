@@ -2,11 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useProfileStore } from '../store/useProfileStore'
 import { useTranslation } from '../lib/useTranslation'
-import { resetAllData } from '../lib/reset-data'
 import { Card } from '../components/Card'
-import { ThemeToggle } from '../components/ThemeToggle'
-import { LanguageToggle } from '../components/LanguageToggle'
-import { TasksSection } from '../components/TasksSection'
 import { PinSetupFlow } from '../components/PinSetupFlow'
 import styles from './ProfileScreen.module.css'
 
@@ -19,12 +15,6 @@ export function ProfileScreen() {
   } = useProfileStore()
 
   const [showPinSetup, setShowPinSetup] = useState(false)
-
-  function handleReset() {
-    if (window.confirm(t.settings.resetConfirm)) {
-      resetAllData()
-    }
-  }
 
   function handleWeightChange(raw: string) {
     const v = raw === '' ? null : parseFloat(raw)
@@ -47,7 +37,6 @@ export function ProfileScreen() {
         <h1>{t.profile.title}</h1>
       </header>
 
-      {/* Profile card */}
       <Card className={styles.section}>
         <div className={styles.fieldRow}>
           <label className={styles.fieldLabel} htmlFor="p-name">{t.profile.nameLabel}</label>
@@ -115,7 +104,6 @@ export function ProfileScreen() {
         </div>
       </Card>
 
-      {/* PIN card */}
       <Card className={styles.section}>
         <span className={styles.sectionTitle}>{t.pin.sectionTitle}</span>
         <div className={styles.pinRow}>
@@ -137,30 +125,6 @@ export function ProfileScreen() {
         <p className={styles.disclaimer}>{t.pin.disclaimer}</p>
       </Card>
 
-      {/* Tasks */}
-      <span className={styles.standaloneSectionTitle}>{t.profile.tasksSection}</span>
-      <TasksSection />
-
-      {/* Settings */}
-      <Card className={styles.section}>
-        <span className={styles.sectionTitle}>{t.profile.settingsSection}</span>
-        <div className={styles.settingsRow}>
-          <span className={styles.fieldLabel}>{t.settings.theme}</span>
-          <ThemeToggle />
-        </div>
-        <div className={styles.divider} />
-        <div className={styles.settingsRow}>
-          <span className={styles.fieldLabel}>{t.settings.language}</span>
-          <LanguageToggle />
-        </div>
-        <div className={styles.divider} />
-        <p className={styles.about}>{t.settings.about}</p>
-        <button type="button" className={styles.resetButton} onClick={handleReset}>
-          {t.settings.resetData}
-        </button>
-      </Card>
-
-      {/* PIN setup overlay */}
       {showPinSetup && (
         <div className={styles.overlay}>
           <PinSetupFlow

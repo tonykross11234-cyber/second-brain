@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useEntriesStore } from '../store/useEntriesStore'
-import { useTasksStore } from '../store/useTasksStore'
 import { useProfileStore } from '../store/useProfileStore'
 import { useChatStore } from '../store/useChatStore'
+import { useFitnessStore } from '../store/useFitnessStore'
 import { useNavStore } from '../store/useNavStore'
 import { useTranslation } from '../lib/useTranslation'
-import { todayKey, calculateStreak, greetingPeriod, formatDateLabel, isToday } from '../lib/date-utils'
+import { todayKey, calculateStreak, greetingPeriod, formatDateLabel } from '../lib/date-utils'
 import { askClaude } from '../lib/anthropic-client'
 import { Card } from '../components/Card'
 import styles from './HomeScreen.module.css'
@@ -16,17 +16,18 @@ export function HomeScreen() {
   const navigate = useNavStore((s) => s.navigate)
 
   const entries = useEntriesStore((s) => s.entries)
-  const tasks = useTasksStore((s) => s.tasks)
   const name = useProfileStore((s) => s.name)
   const motivation = useChatStore((s) => s.motivation)
   const setMotivation = useChatStore((s) => s.setMotivation)
+
+  const getTodayData = useFitnessStore((s) => s.getTodayData)
+  const goals = useFitnessStore((s) => s.goals)
+  const todayFitness = getTodayData()
 
   const [motivationLoading, setMotivationLoading] = useState(false)
 
   const today = todayKey()
   const streak = calculateStreak(entries)
-  const activeTasks = tasks.filter((task) => !task.done)
-  const doneTodayCount = tasks.filter((task) => task.done && task.completedAt != null && isToday(task.completedAt)).length
   const lastEntry = [...entries].sort((a, b) => (a.date < b.date ? 1 : -1))[0]
 
   const period = greetingPeriod()
@@ -59,9 +60,7 @@ export function HomeScreen() {
         if (!cancelled) setMotivationLoading(false)
       })
 
-    return () => {
-      cancelled = true
-    }
+    return () => { cancelled = true }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const motivationText = motivationLoading
@@ -75,6 +74,14 @@ export function HomeScreen() {
     day: 'numeric',
     month: 'long',
   })
+
+  function pct(val: number, goal: number) {
+    return Math.min(100, goal > 0 ? Math.round((val / goal) * 100) : 0)
+  }
+
+  const calPct = pct(todayFitness.calories, goals.calories)
+  const protPct = pct(todayFitness.proteinG, goals.proteinG)
+  const waterPct = pct(todayFitness.waterMl, goals.waterMl)
 
   return (
     <div className={styles.screen}>
@@ -91,15 +98,35 @@ export function HomeScreen() {
           <span className={styles.statLabel}>{t.home.streakLabel}</span>
           <span className={styles.statSub}>{t.home.streakDays(streak)}</span>
         </Card>
-        <Card className={styles.statCard}>
-          <span className={styles.statValue}>{activeTasks.length}</span>
-          <span className={styles.statLabel}>{t.home.tasksLabel}</span>
-          <span className={styles.statSub}>{t.home.tasksActive(activeTasks.length)}</span>
-          {doneTodayCount > 0 && (
-            <span className={styles.statDone}>{t.home.tasksDoneToday(doneTodayCount)}</span>
-          )}
+        <Card className={styles.statCard} onClick={() => navigate('journal')}>
+          <span className={styles.statValue}>{entries.length}</span>
+          <span className={styles.statLabel}>{t.journal.title}</span>
+          <span className={styles.statSub}>{lastEntry ? formatDateLabel(lastEntry.date, language) : '—'}</span>
         </Card>
       </div>
+
+      <Card className={styles.fitnessCard} onClick={() => navigate('fitness')}>
+        <span className={styles.sectionLabel}>{t.home.caloriesLabel}</span>
+        <div className={styles.progressRow}>
+          <span className={styles.progressVal}>{todayFitness.calories}</span>
+          <span className={styles.progressGoal}>/ {goals.calories}</span>
+        </div>
+        <div className={styles.progressBar}><div className={styles.progressFill} style={{ width: `${calPct}%`, background: 'var(--accent-gradient)' }} /></div>
+
+        <span className={styles.sectionLabel} style={{ marginTop: 12 }}>{t.home.proteinLabel}</span>
+        <div className={styles.progressRow}>
+          <span className={styles.progressVal}>{todayFitness.proteinG}г</span>
+          <span className={styles.progressGoal}>/ {goals.proteinG}г</span>
+        </div>
+        <div className={styles.progressBar}><div className={styles.progressFill} style={{ width: `${protPct}%`, background: 'linear-gradient(135deg, #34d399, #06b6d4)' }} /></div>
+
+        <span className={styles.sectionLabel} style={{ marginTop: 12 }}>{t.home.waterLabel}</span>
+        <div className={styles.progressRow}>
+          <span className={styles.progressVal}>{todayFitness.waterMl}мл</span>
+          <span className={styles.progressGoal}>/ {goals.waterMl}мл</span>
+        </div>
+        <div className={styles.progressBar}><div className={styles.progressFill} style={{ width: `${waterPct}%`, background: 'linear-gradient(135deg, #38bdf8, #818cf8)' }} /></div>
+      </Card>
 
       <Card className={styles.motivationCard}>
         <span className={styles.sectionLabel}>{t.home.motivationLabel}</span>
@@ -113,41 +140,21 @@ export function HomeScreen() {
         {lastEntry ? (
           <>
             <p className={styles.entryDate}>{formatDateLabel(lastEntry.date, language)}</p>
-            <p className={styles.entryPreview}>
-              {lastEntry.did || lastEntry.thoughts || lastEntry.plans}
-            </p>
+            <p className={styles.entryPreview}>{lastEntry.did || lastEntry.thoughts || lastEntry.plans}</p>
           </>
         ) : (
           <p className={styles.emptyEntry}>{t.home.lastEntryEmpty}</p>
         )}
       </Card>
 
-      <div className={styles.actions}>
-        <motion.button
-          type="button"
-          className={styles.actionButton}
-          whileTap={{ scale: 0.96 }}
-          onClick={() => navigate('journal')}
-        >
-          ✏️ {t.home.quickWriteEntry}
-        </motion.button>
-        <motion.button
-          type="button"
-          className={styles.actionButton}
-          whileTap={{ scale: 0.96 }}
-          onClick={() => navigate('profile')}
-        >
-          ✅ {t.home.quickAddTask}
-        </motion.button>
-        <motion.button
-          type="button"
-          className={`${styles.actionButton} ${styles.actionAccent}`}
-          whileTap={{ scale: 0.96 }}
-          onClick={() => navigate('chat')}
-        >
-          💬 {t.home.quickAskAI}
-        </motion.button>
-      </div>
+      <motion.button
+        type="button"
+        className={styles.askAiButton}
+        whileTap={{ scale: 0.96 }}
+        onClick={() => navigate('chat')}
+      >
+        {t.home.askAiAboutDay}
+      </motion.button>
     </div>
   )
 }

@@ -4,6 +4,7 @@ import { useEntriesStore } from '../store/useEntriesStore'
 import { useTasksStore } from '../store/useTasksStore'
 import { useProfileStore } from '../store/useProfileStore'
 import { useChatStore } from '../store/useChatStore'
+import { useFitnessStore } from '../store/useFitnessStore'
 import { useTranslation } from '../lib/useTranslation'
 import { callClaude } from '../lib/anthropic-client'
 import { buildSystemPrompt } from '../lib/chat-context'
@@ -36,6 +37,9 @@ export function ChatScreen() {
   const addMessage = useChatStore((s) => s.addMessage)
   const clearHistory = useChatStore((s) => s.clearHistory)
 
+  const getTodayFitness = useFitnessStore((s) => s.getTodayData)
+  const fitnessGoals = useFitnessStore((s) => s.goals)
+
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
@@ -58,7 +62,7 @@ export function ChatScreen() {
     addMessage('user', text)
     scrollToBottom()
 
-    const systemPrompt = buildSystemPrompt(language, profile, entries, tasks)
+    const systemPrompt = buildSystemPrompt(language, profile, entries, tasks, getTodayFitness(), fitnessGoals)
     let apiMessages: ApiChatMessage[] = [
       ...buildApiHistory(),
       { role: 'user', content: text },
