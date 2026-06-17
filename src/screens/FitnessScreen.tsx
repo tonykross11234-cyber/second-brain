@@ -4,7 +4,7 @@ import { useNavStore } from '../store/useNavStore'
 import { useTranslation } from '../lib/useTranslation'
 import { todayKey } from '../lib/date-utils'
 import { Card } from '../components/Card'
-import { Flame, Zap, Droplets, MessageCircle, Target } from '../lib/icons'
+import { MessageCircle, Target } from '../lib/icons'
 import styles from './FitnessScreen.module.css'
 
 function pct(val: number, goal: number): number {
@@ -35,11 +35,10 @@ export function FitnessScreen() {
       <div className={styles.statsGrid}>
         {/* Calories */}
         <div className={styles.statCard}>
-          <Flame size={20} style={{ color: '#f97316' }} />
           <span className={`${styles.statVal} ${styles.statValCal}`}>
             {today.calories}
           </span>
-          <span className={styles.statGoal}>из {goals.calories} {t.fitness.kcal}</span>
+          <span className={styles.statGoal}>/ {goals.calories} {t.fitness.kcal}</span>
           <div className={styles.miniBar}>
             <div
               className={styles.miniFill}
@@ -53,11 +52,10 @@ export function FitnessScreen() {
 
         {/* Protein */}
         <div className={styles.statCard}>
-          <Zap size={20} style={{ color: '#7c3aed' }} />
           <span className={`${styles.statVal} ${styles.statValProt}`}>
             {today.proteinG}
           </span>
-          <span className={styles.statGoal}>из {goals.proteinG} {t.fitness.g}</span>
+          <span className={styles.statGoal}>/ {goals.proteinG} {t.fitness.g}</span>
           <div className={styles.miniBar}>
             <div
               className={styles.miniFill}
@@ -71,11 +69,10 @@ export function FitnessScreen() {
 
         {/* Water */}
         <div className={styles.statCard}>
-          <Droplets size={20} style={{ color: '#06b6d4' }} />
           <span className={`${styles.statVal} ${styles.statValWater}`}>
             {today.waterMl}
           </span>
-          <span className={styles.statGoal}>из {goals.waterMl} {t.fitness.ml}</span>
+          <span className={styles.statGoal}>/ {goals.waterMl} {t.fitness.ml}</span>
           <div className={styles.miniBar}>
             <div
               className={styles.miniFill}
