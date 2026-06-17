@@ -39,20 +39,22 @@ export function HomeScreen() {
   const greeting = t.home[greetingKey]
 
   useEffect(() => {
-    if (motivation?.date === today) return
+    if (motivation?.date === today && motivation?.language === language) return
 
     const prompt =
       language === 'ru'
-        ? `Напиши одну короткую (1–2 предложения) мотивирующую фразу для человека с серией ${streak} ${streak === 1 ? 'день' : 'дней'} в дневнике. Тёплый тон, без кавычек, без форматирования.`
+        ? `Напиши одну короткую (1–2 предложения) мотивирующую фразу для человека с серией ${streak} дней в дневнике. Тёплый тон, без кавычек, без форматирования.`
         : `Write one short (1–2 sentences) motivational message for someone with a ${streak}-day journal streak. Warm tone, no quotes, no formatting.`
+
+    const system = `Respond only in ${language === 'ru' ? 'Russian' : 'English'}. No quotes, no formatting, plain text only.`
 
     let cancelled = false
     setMotivationLoading(true)
 
-    askClaude([{ role: 'user', content: prompt }], { maxTokens: 80 })
+    askClaude([{ role: 'user', content: prompt }], { system, maxTokens: 80 })
       .then((text) => {
         if (!cancelled) {
-          setMotivation({ date: today, text })
+          setMotivation({ date: today, text, language })
           setMotivationLoading(false)
         }
       })
@@ -61,7 +63,7 @@ export function HomeScreen() {
       })
 
     return () => { cancelled = true }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [language]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const motivationText = motivationLoading
     ? t.home.motivationLoading
@@ -96,12 +98,12 @@ export function HomeScreen() {
         <Card className={styles.statCard}>
           <span className={styles.statValue}>{streak}</span>
           <span className={styles.statLabel}>{t.home.streakLabel}</span>
-          <span className={styles.statSub}>{t.home.streakDays(streak)}</span>
+          <span className={styles.statSub}>{t.home.streakSub}</span>
         </Card>
         <Card className={styles.statCard} onClick={() => navigate('journal')}>
           <span className={styles.statValue}>{entries.length}</span>
-          <span className={styles.statLabel}>{t.journal.title}</span>
-          <span className={styles.statSub}>{lastEntry ? formatDateLabel(lastEntry.date, language) : '—'}</span>
+          <span className={styles.statLabel}>{t.home.entriesLabel}</span>
+          <span className={styles.statSub}>{t.home.entriesAllTime}</span>
         </Card>
       </div>
 

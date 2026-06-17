@@ -8,17 +8,18 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-top: 1px solid var(--border);
-  padding: 8px max(8px, var(--safe-right)) calc(8px + var(--safe-bottom)) max(8px, var(--safe-left));
+  padding: 6px max(4px, var(--safe-right)) calc(6px + var(--safe-bottom)) max(4px, var(--safe-left));
   z-index: 10;
 }
 
 .tab {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
-  padding: 6px 0;
+  padding: 4px 2px;
   color: var(--text-secondary);
   transition: color 0.2s ease, transform 0.15s ease;
 }
@@ -28,8 +29,9 @@
 }
 
 .icon {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
 }
 
 .icon svg {
@@ -38,8 +40,12 @@
 }
 
 .label {
-  font-size: 11px;
+  font-size: 9px;
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .active {

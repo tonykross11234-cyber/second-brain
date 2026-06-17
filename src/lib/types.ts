@@ -43,4 +43,5 @@ export interface ChatTurn {
 export interface DailyMotivation {
   date: string
   text: string
+  language?: string
 }
