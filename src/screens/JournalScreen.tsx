@@ -6,6 +6,7 @@ import { todayKey, formatDateLabel } from '../lib/date-utils'
 import { Card } from '../components/Card'
 import { EmptyState } from '../components/EmptyState'
 import { Phantom } from '../components/Phantom'
+import { Search } from '../lib/icons'
 import styles from './JournalScreen.module.css'
 
 export function JournalScreen() {
@@ -80,7 +81,7 @@ export function JournalScreen() {
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.25 }}
             >
-              <Phantom size="sm" state="idle" phrase="Записал! 📝" />
+              <Phantom size="sm" state="idle" phrase="Записал!" />
             </motion.div>
           )}
         </AnimatePresence>
@@ -102,7 +103,7 @@ export function JournalScreen() {
             <Phantom size="lg" state="sad" />
           </div>
         ) : filtered.length === 0 ? (
-          <EmptyState icon="🔍" title={t.journal.noResults} />
+          <EmptyState icon={<Search size={32} strokeWidth={1.5} />} title={t.journal.noResults} />
         ) : (
           <div className={styles.list}>
             {filtered.map((entry) => {

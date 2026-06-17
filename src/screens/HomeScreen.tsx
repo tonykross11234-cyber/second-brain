@@ -10,6 +10,7 @@ import { todayKey, calculateStreak, greetingPeriod, formatDateLabel } from '../l
 import { askClaude } from '../lib/anthropic-client'
 import { Card } from '../components/Card'
 import { Phantom } from '../components/Phantom'
+import { FlameIcon } from '../components/FlameIcon'
 import styles from './HomeScreen.module.css'
 
 export function HomeScreen() {
@@ -102,6 +103,7 @@ export function HomeScreen() {
 
       <div className={styles.statsRow}>
         <Card className={styles.statCard}>
+          <FlameIcon />
           <span className={styles.statValue}>{streak}</span>
           <span className={styles.statLabel}>{t.home.streakLabel}</span>
           <span className={styles.statSub}>{t.home.streakSub}</span>

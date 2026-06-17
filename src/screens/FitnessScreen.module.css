@@ -32,30 +32,16 @@
   align-items: center;
   gap: 2px;
   text-align: center;
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 20px !important;
 }
 
 .statVal {
   font-size: 28px;
   font-weight: 800;
   line-height: 1;
-}
-
-.calCard .statVal {
-  background: var(--accent-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.protCard .statVal {
-  background: linear-gradient(135deg, #34d399, #06b6d4);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.waterCard .statVal {
-  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  background: linear-gradient(135deg, #a78bfa, #38bdf8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

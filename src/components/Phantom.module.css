@@ -7,13 +7,47 @@
 }
 
 .bubble {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(167, 139, 250, 0.3);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
   border-radius: 12px;
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-secondary);
   padding: 10px 14px;
   max-width: 200px;
   text-align: center;
   line-height: 1.4;
 }
+
+/* ── Keyframes ── */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes slowFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-14px); }
+}
+
+/* shake fires every ~3.5s; actual shake occupies last ~10% of cycle */
+@keyframes shake {
+  0%, 83%, 100% { transform: translateX(0); }
+  85% { transform: translateX(-6px); }
+  87% { transform: translateX(6px); }
+  89% { transform: translateX(-4px); }
+  91% { transform: translateX(4px); }
+  93% { transform: translateX(0); }
+}
+
+/* ── Animation classes ── */
+
+.animFloat  { animation: float     3s   ease-in-out infinite; }
+.animSlow   { animation: slowFloat 4s   ease-in-out infinite; }
+.animBounce { animation: bounce    0.6s ease-in-out infinite; }
+.animShake  { animation: shake     3.5s ease-in-out infinite; }

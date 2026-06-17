@@ -6,6 +6,7 @@ import type { Priority } from '../lib/types'
 import { Card } from './Card'
 import { PriorityBadge } from './PriorityBadge'
 import { EmptyState } from './EmptyState'
+import { Target } from '../lib/icons'
 import styles from './TasksSection.module.css'
 
 const PRIORITY_ORDER: Priority[] = ['high', 'medium', 'low']
@@ -70,7 +71,7 @@ export function TasksSection() {
       </Card>
 
       {tasks.length === 0 ? (
-        <EmptyState icon="✅" title={t.tasks.empty} body={t.tasks.emptyBody} />
+        <EmptyState icon={<Target size={32} strokeWidth={1.5} />} title={t.tasks.empty} body={t.tasks.emptyBody} />
       ) : (
         <div className={styles.list}>
           <AnimatePresence initial={false}>
