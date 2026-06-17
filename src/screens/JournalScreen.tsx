@@ -5,7 +5,7 @@ import { useTranslation } from '../lib/useTranslation'
 import { todayKey, formatDateLabel } from '../lib/date-utils'
 import { Card } from '../components/Card'
 import { EmptyState } from '../components/EmptyState'
-import { Phantom } from '../components/Phantom'
+import { Ghost } from '../components/Ghost'
 import { Search, ChevronRight } from '../lib/icons'
 import styles from './JournalScreen.module.css'
 
@@ -91,7 +91,7 @@ export function JournalScreen() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.25 }}
             >
-              <Phantom size="sm" state="idle" phrase="Записал!" />
+              <Ghost size="sm" state="idle" phrase="Записал!" />
             </motion.div>
           )}
         </AnimatePresence>
@@ -111,7 +111,7 @@ export function JournalScreen() {
 
         {pastEntries.length === 0 ? (
           <div className={styles.emptyPhantom}>
-            <Phantom size="lg" state="sad" />
+            <Ghost size="lg" state="sad" />
           </div>
         ) : filtered.length === 0 ? (
           <EmptyState

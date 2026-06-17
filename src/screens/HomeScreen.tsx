@@ -9,7 +9,7 @@ import { useTranslation } from '../lib/useTranslation'
 import { todayKey, calculateStreak, greetingPeriod, formatDateLabel } from '../lib/date-utils'
 import { askClaude } from '../lib/anthropic-client'
 import { Card } from '../components/Card'
-import { Phantom } from '../components/Phantom'
+import { Ghost } from '../components/Ghost'
 import { FlameIcon } from '../components/FlameIcon'
 import {
   Bell,
@@ -204,7 +204,7 @@ export function HomeScreen() {
           <div className={styles.streakLabel}>{t.home.streakLabel}</div>
         </div>
         <div className={styles.heroPhantom}>
-          <Phantom state={streak >= 7 ? 'win' : 'idle'} size="sm" />
+          <Ghost state={streak >= 7 ? 'win' : 'idle'} size="sm" />
         </div>
       </div>
 

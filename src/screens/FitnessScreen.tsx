@@ -4,7 +4,7 @@ import { useNavStore } from '../store/useNavStore'
 import { useTranslation } from '../lib/useTranslation'
 import { todayKey } from '../lib/date-utils'
 import { Card } from '../components/Card'
-import { Phantom } from '../components/Phantom'
+import { Ghost } from '../components/Ghost'
 import { Flame, Zap, Droplets, MessageCircle, Target } from '../lib/icons'
 import styles from './FitnessScreen.module.css'
 
@@ -30,7 +30,7 @@ export function FitnessScreen() {
       {/* 1. HEADER ROW */}
       <div className={styles.header}>
         <h1 className={styles.title}>{t.fitness.title}</h1>
-        <Phantom size="sm" state="workout" />
+        <Ghost size="sm" state="workout" />
       </div>
 
       {/* 2. STATS GRID */}
